@@ -32,7 +32,7 @@
                             <div class="title mt-4">Total Price: <span class="green--text">${{transaction.quantity * transaction.price}}</span></div>
                         </v-flex>
                         <v-flex xs3>
-                            <div class="body-2 ml-2 mt-3 grey--text text--darken-2">Purchased: {{new Date(transaction.checkoutDate).toString()}}</div>
+                            <div class="body-2 ml-2 mt-3 grey--text text--darken-2">Purchased: {{new Date(transaction.checkoutDate).toLocaleString()}}</div>
                         </v-flex>
                     </v-layout>
                 </v-card>

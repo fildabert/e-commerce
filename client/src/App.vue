@@ -18,7 +18,7 @@
       </v-flex>
       <v-badge color="blue-grey lighten-1" inline v-show="$store.state.admin">
         <template v-slot:badge>
-        <v-icon small>done</v-icon>
+        <v-icon small color="white">done</v-icon>
         </template>
           <p class="mt-1 subheading">{{$store.state.username}} </p>
         </v-badge>
@@ -75,11 +75,16 @@
             dark
             class="my-3"
           ></v-divider>
+
+
+          
           <v-list-tile
             v-else
             :key="i"
             :to="{path: item.link}"
           >
+          
+
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>

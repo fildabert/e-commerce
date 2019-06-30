@@ -1,4 +1,5 @@
 const Product = require("../models/product")
+const Cart = require("../models/cart")
 
 class ProductController{
 
@@ -45,7 +46,10 @@ class ProductController{
     }
 
     static delete(req, res, next){
-        return Product.deleteOne({_id: req.query.id})
+        Cart.deleteMany({product: req.query.id, status: false})
+        .then(deleted =>{
+            return Product.deleteOne({_id: req.query.id})
+        })
         .then(deleted =>{
             res.status(200).json(deleted)
         })

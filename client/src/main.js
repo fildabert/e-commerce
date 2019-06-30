@@ -28,16 +28,19 @@ const store = new Vuex.Store({
     _id: ""
   },
   mutations: {
-    ADD_TO_CART (state, newItem) {
-      var found = state.cart.findIndex(item => item.id == newItem.id)
-      if(found < 0){
-        state.cart.push({
-          ...newItem,
-          quantity: 1
-        })
-      }else{
-        state.cart[found].quantity ++
-      }
+    // ADD_TO_CART (state, newItem) {
+    //   var found = state.cart.findIndex(item => item.id == newItem.id)
+    //   if(found < 0){
+    //     state.cart.push({
+    //       ...newItem,
+    //       quantity: 1
+    //     })
+    //   }else{
+    //     state.cart[found].quantity ++
+    //   }
+    // },
+    SET_CART (state, payload) {
+      state.cart = payload
     },
     SET_IS_LOGIN (state, payload){
       state.isLogin = payload.isLogin
@@ -75,6 +78,7 @@ const store = new Vuex.Store({
           url: `${this.state.baseUrl}/cart/all?_id=${payload}`,
         })
         .then(carts =>{
+          context.commit("SET_CART", carts.data)
           resolve(carts)
         })
         .catch(err =>{

@@ -13,7 +13,8 @@
             <h4 class="subheading">Your No. 1 trusted weapons dealer</h4>
           </v-layout>
         </v-parallax>
-            
+        <v-alert v-model="alert" dismissible type="success">{{msg}}</v-alert>
+ 
                 
         <v-container fluid grid-list-xl v-show="!details">
             <v-layout row wrap>
@@ -100,7 +101,9 @@ export default {
                 }
             })
             .then(created =>{
-                console.log(created.data)
+                this.alert = true
+                this.msg = "Product is now added into your cart"
+                setTimeout(() => this.alert = "", 3000)
             })  
             .catch(err =>{
                 this.$emit("loginFirst")
@@ -117,6 +120,8 @@ export default {
                 // { id: 5, title: "AK 42", type:"Assault Rifle", price:2200},
             ],
             details: false,
+            alert: false,
+            msg: ""
         }
     },
     watch: {

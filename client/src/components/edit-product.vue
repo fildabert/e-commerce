@@ -94,6 +94,9 @@ export default {
                     weaponType: this.selectedType,
                     image: this.imageLinkFromGCS,
                     stock: this.stock
+                },
+                headers: {
+                    token: sessionStorage.getItem("jwt")
                 }
             })
              .then(created =>{
