@@ -18,7 +18,7 @@ const router = new VueRouter({routes})
 const store = new Vuex.Store({
   state: {
     cart: [],
-    baseUrl: "http://localhost:3000",
+    baseUrl: "http://hacktivgun-server.fildabert.com",
     isLogin: "",
     email: "",
     username: "",
@@ -76,6 +76,8 @@ const store = new Vuex.Store({
         axios.request({
           method: "GET",
           url: `${this.state.baseUrl}/cart/all?_id=${payload}`,
+          headers:{
+          }
         })
         .then(carts =>{
           context.commit("SET_CART", carts.data)

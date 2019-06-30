@@ -7,12 +7,12 @@
         <v-flex xs11></v-flex>
             <v-card>
         <v-layout row wrap>
-                <v-flex xs7 class="pa-4">
+                <v-flex xs12 md7 class="pa-4">
                     <v-img :src="selected.image">
 
                     </v-img>
                 </v-flex>
-                <v-flex xs4 offset-xs1 class="pa-4">
+                <v-flex xs12 md4 offset-md1 class="pa-4">
                     <div class="display-3">{{selected.title}}</div>
                     <div class="title grey--text text--darken-2">{{selected.weaponType}}</div>
                     <div class="display-1 green--text mt-1">${{selected.price}}</div>

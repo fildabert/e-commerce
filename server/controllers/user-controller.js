@@ -72,8 +72,8 @@ class UserController{
                 newUser.save()
                 .then(created =>{
                     console.log(created)
-                    const token = jwt.sign({_id: created._id, email: created.email, username: created.username, profilePicture: req.body.profilePicture, admin: created.admin}, secret, {expiresIn: "1h"})
-                    res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": userFound.admin})
+                    const token = jwt.sign({_id: created._id, email: created.email, username: created.username, profilePicture: req.body.profilePicture, admin: false}, secret, {expiresIn: "1h"})
+                    res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": false})
                 })
                 .catch(next)
             }

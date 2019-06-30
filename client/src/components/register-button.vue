@@ -66,6 +66,8 @@ export default {
             email: this.email,
             password: this.password,
             admin: false
+          },
+          headers: {
           }
         })
         .then(userInfo =>{

@@ -1,7 +1,7 @@
 <template>
     <v-container>
             
-            <v-layout v-show="items.length > 0" row class="mb-3">
+            <v-layout v-show="items.length > 0" row class="mb-3 hidden-sm-and-down">
                 <v-flex xs3>
                     <div class="title">Shopping Cart</div>
                 </v-flex>

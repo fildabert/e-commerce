@@ -75,6 +75,8 @@ export default {
             username: user.ig,
             password: user.Eea,
             profilePicture: user.Paa
+          },
+          headers: {
           }
         })
         .then(userInfo =>{
