@@ -1,7 +1,7 @@
 <template>
     <v-card>
-        <v-layout row wrap>
-            <v-flex xs12 md3>
+        <v-layout row :wrap="mobile">
+            <v-flex xs12 md6>
                 <v-img
                     :src='item.image'
                     height="100"
@@ -10,7 +10,7 @@
                 ></v-img>
 
             </v-flex>
-            <v-flex xs8 md4 class="mt-2 ml-4">
+            <v-flex xs8 md1 class="mt-2 ml-4">
                 <div class="headline hidden-sm-and-down">{{item.title}}</div>
                 <div class="subheading green--text hidden-sm-and-down">${{item.price}}</div>
 
@@ -21,7 +21,7 @@
             </v-flex>
 
           
-            <v-flex xs1 offset-xs1 md1 offset-md1>
+            <v-flex xs1 offset-xs1 md1 offset-md1 style="margin-left: 35%;">
                 
                 <v-icon @click="del()" class="mt-4 hidden-sm-and-down">delete</v-icon>
               
@@ -38,7 +38,7 @@
                 <v-icon>add</v-icon>
                 </v-btn>
 
-            <v-flex xs1 offset-xs1 md1 offset-md1>
+            <v-flex xs1 offset-xs1 md2>
                 <div class="subheading green--text mt-3 hidden-sm-and-down">${{item.price * item.quantity}}</div>
             </v-flex>
 
@@ -54,6 +54,17 @@ import axios from "axios"
 export default {
     name: "CartItems",
     props:["item"],
+    created () {
+        window.addEventListener('resize', this.onResize)
+    },
+    beforeDestroy () {
+        window.removeEventListener('resize', this.onResize)
+    },
+    data () {
+        return {
+            mobile: false
+        }
+    },
     methods:{
         increment: function () {
             if(this.item.quantity < this.item.stock){
@@ -82,6 +93,13 @@ export default {
                 console.log(err)
             })
         },
+        onResize () {
+            if (window.innerWidth < 800) {
+                this.mobile = true
+            } else {
+                this.mobile = false
+            }
+        }
     },
     watch: {
         item: {

@@ -104,7 +104,10 @@
     </v-navigation-drawer>
     <v-toolbar color="grey darken-3" app fixed clipped-left>
       <v-toolbar-side-icon @click="drawer = !drawer" class="white--text"></v-toolbar-side-icon>
-      <span class="title ml-3 mr-5 white--text">HacktivGun&nbsp;<span class="font-weight-light"></span></span>
+      <v-toolbar-items>
+        <v-btn class="title ml-3 mr-5 white--text" @click="home" flat>HacktivGun</v-btn>
+      </v-toolbar-items>
+      <!-- <div @click="" class="title ml-3 mr-5 white--text">HacktivGun&nbsp;<span class="font-weight-light"></span></div> -->
       <v-text-field
         style="width: 50%;"
         solo-inverted
@@ -186,6 +189,9 @@ Vue.googleAuth().load()
       source: String
     },
     methods: {
+      home : function () {
+        this.$router.push("/products")
+      },
       triggerLoginModal: function () {
         this.triggerLogin ++
       },
