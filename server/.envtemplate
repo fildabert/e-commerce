@@ -1,0 +1,6 @@
+SECRET=RAHASIA
+GOOGLE_SIGNIN_CLIENT_ID=58857443225-5c2ubp38j7cpjhhukju5qebolnqg2nm5.apps.googleusercontent.com
+GOOGLE_SIGNIN_CLIENT_SECRET=BLniGQjuhK4yr3mK8yzwe5hO
+GCLOUD_PROJECT=hacktivgun-1561795583653
+CLOUD_BUCKET=hacktivgun.fildabert.com
+KEYFILE_PATH=keyfile.json
