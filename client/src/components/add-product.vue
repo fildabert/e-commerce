@@ -133,7 +133,7 @@ export default {
                     this.imageFile = files[0] // this is an image file that can be sent to server...
                     const formData = new FormData()
                         formData.append('image',this.imageFile)
-                        axios.post(`http://hacktivgun-server.fildabert.com/googleCloudStorage`, formData)
+                        axios.post(`${baseUrl}/googleCloudStorage`, formData)
                           .then(({ data }) =>{
                             this.imageLinkFromGCS = data
                             })

@@ -1,6 +1,14 @@
 const Product = require("../models/product")
 const Cart = require("../models/cart")
 
+require("dotenv").config()
+const { Storage } = require("@google-cloud/storage")
+const bucketName = process.env.CLOUD_BUCKET
+const storage = new Storage({
+    projectId: process.env.GCLOUD_PROJECT,
+    keyFilename: process.env.KEYFILE_PATH
+            })
+
 class ProductController{
 
     static create(req, res, next){
@@ -28,13 +36,19 @@ class ProductController{
     }
 
     static update(req, res, next){
-        return Product.update({_id: req.body.id},{
-            title: req.body.title,
-            description: req.body.description,
-            price: req.body.price,
-            weaponType: req.body.weaponType,
-            image: req.body.image,
-            stock: req.body.stock
+        return storage
+        .bucket('hacktivgun.fildabert.com')
+        .file(req.body.previousImage)
+        .delete()
+        .then(() =>{
+            return Product.update({_id: req.body.id},{
+                title: req.body.title,
+                description: req.body.description,
+                price: req.body.price,
+                weaponType: req.body.weaponType,
+                image: req.body.image,
+                stock: req.body.stock
+            })
         })
         .then(updated =>{
             return Product.findOne({_id: req.query.id})
@@ -57,7 +71,6 @@ class ProductController{
     }
 
     static decrement(req, res, next){
-        console.log("MASUK")
         return Product.update({_id: req.body.id},{
           $inc: { stock: -req.body.quantity}  
         })

@@ -217,8 +217,7 @@ Vue.googleAuth().load()
       search: function () {
         var regexp = new RegExp(this.search, "i")
         var searchResults = this.products.filter((product) => product.title.match(regexp))
-        console.log(searchResults)
-        // this.$store.commit("SET_ALL_PRODUCTS", searchResults)
+        this.$store.commit("SET_ALL_PRODUCTS", searchResults)
       }
     }
   }
