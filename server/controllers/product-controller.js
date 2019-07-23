@@ -8,15 +8,6 @@ const storage = new Storage({
     keyFilename: process.env.KEYFILE_PATH
             })
 
-
-require("dotenv").config()
-const { Storage } = require("@google-cloud/storage")
-const bucketName = process.env.CLOUD_BUCKET
-const storage = new Storage({
-    projectId: process.env.GCLOUD_PROJECT,
-    keyFilename: process.env.KEYFILE_PATH
-            })
-
 class ProductController{
 
     static create(req, res, next){
