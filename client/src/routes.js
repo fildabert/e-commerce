@@ -1,9 +1,9 @@
-import ProductsDisplay from "./components/products-display.vue"
-import ModifyProducts from "./components/modify-products.vue"
+import ProductsDisplay from "./views/products-display.vue"
+import ModifyProducts from "./views/modify-products.vue"
 import ShoppingCart from "./components/shopping-cart.vue"
 import TransactionHistory from "./components/transaction-history.vue"
-import AddProduct from "./components/add-product.vue"
-import EditProducts from "./components/edit-product.vue"
+import AddProduct from "./views/add-product.vue"
+import EditProducts from "./views/edit-product.vue"
 import ProductDetails from "./components/product-details.vue"
 
 const routes = [

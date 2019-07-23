@@ -1,7 +1,14 @@
 <template>
     <div>
-        <v-alert v-model="alert" dismissible type="success">{{msg}}</v-alert>
- 
+        <!-- <v-alert v-model="alert" dismissible type="success">{{msg}}</v-alert> -->
+        <v-snackbar
+         v-model="alert"
+         top
+         :color="snackbar"
+         class="mt-1"
+        >
+            {{msg}}
+        </v-snackbar>
                 
         <v-container fluid grid-list-xl v-show="!details">
             <v-layout row wrap>
@@ -13,7 +20,7 @@
                 height=200
                 >
                 
-                    <v-layout class="mt-1">
+                    <v-layout class="mt-1" style="height: 150px;"> 
                         <v-flex xs7>
                             <v-img
                                 :src="product.image"
@@ -24,7 +31,7 @@
                         </v-flex>
                         
                         <v-flex xs5>
-                        <v-card-title primary-title class="ml-3 pb-1">
+                        <v-card-title primary-title class="ml-0 pb-1" style="overflow-wrap: anywhere;">
                             <div>
                             <div class="headline" >{{product.title}}</div>
                             <div class="caption grey--text">{{product.weaponType}}</div>
@@ -90,7 +97,8 @@ export default {
             .then(created =>{
                 this.alert = true
                 this.msg = "Product is now added into your cart"
-                setTimeout(() => this.alert = "", 3000)
+                this.snackbar = "success"
+                setTimeout(() => this.alert = "", 2000)
             })  
             .catch(err =>{
                 this.$emit("loginFirst")
@@ -108,7 +116,8 @@ export default {
             ],
             details: false,
             alert: false,
-            msg: ""
+            msg: "",
+            snackbar: ""
         }
     },
     watch: {

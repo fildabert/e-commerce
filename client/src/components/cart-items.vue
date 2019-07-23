@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-layout row :wrap="mobile">
-            <v-flex xs12 md6>
+            <v-flex xs12 md6 style="max-width: 20%;">
                 <v-img
                     :src='item.image'
                     height="100"
@@ -10,18 +10,18 @@
                 ></v-img>
 
             </v-flex>
-            <v-flex xs8 md1 class="mt-2 ml-4">
+            <v-flex xs8 md5 class="mt-2 ml-4" style="min-width: 8%;">
                 <div class="headline hidden-sm-and-down">{{item.title}}</div>
                 <div class="subheading green--text hidden-sm-and-down">${{item.price}}</div>
 
-                <div class="title hidden-sm-and-up">Item: {{item.title}}</div>
-                <div class="subheading hidden-sm-and-up">Price: <span class="green--text">${{item.price}}</span></div>
-                <div class="subheading hidden-sm-and-up">Quantity: <v-text-field v-model="item.quantity" type="number" class="hidden-sm-and-up" style="width: 40px;"></v-text-field></div>
-                <div class="subheading hidden-sm-and-up">Total Price: <span class="green--text">${{item.price * item.quantity}}</span></div>
+                <div class="title hidden-md-and-up">Item: {{item.title}}</div>
+                <div class="subheading hidden-md-and-up">Price: <span class="green--text">${{item.price}}</span></div>
+                <div class="subheading hidden-md-and-up">Quantity: <v-text-field v-model="item.quantity" type="number" class="hidden-md-and-up" style="width: 40px;"></v-text-field></div>
+                <div class="subheading hidden-md-and-up">Total Price: <span class="green--text">${{item.price * item.quantity}}</span></div>
             </v-flex>
 
           
-            <v-flex xs1 offset-xs1 md1 offset-md1 style="margin-left: 35%;">
+            <v-flex xs1 offset-xs1 md1 offset-md3>
                 
                 <v-icon @click="del()" class="mt-4 hidden-sm-and-down">delete</v-icon>
               

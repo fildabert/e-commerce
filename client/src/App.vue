@@ -3,9 +3,8 @@
     <NavigationDrawer :loginFirst="triggerLogin"></NavigationDrawer> 
 
     <v-content class="grey lighten-4">
-      <Parallax></Parallax>
+      <Parallax v-show="$route.path === '/' || $route.path === '/products'"></Parallax>
       <v-container fluid>      
-        <h1>{{$route.path}}</h1>
 
         <router-view :drawer="drawer" @loginFirst="triggerLoginModal"></router-view>
       <div style="height: 200px;"></div>
@@ -16,12 +15,9 @@
 </template>
 
 <script>
-
 import Vue from "vue"
-
 import NavigationDrawer from "./components/NavigationDrawer"
 import Parallax from "./components/Parallax"
-
 
 
   export default {

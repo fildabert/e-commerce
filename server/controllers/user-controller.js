@@ -59,7 +59,6 @@ class UserController{
     }
 
     static googleLogin (req, res, next) {
-        console.log("ASDGOOGLELOGIN")
         var payload = null
         client.verifyIdToken({
             idToken: req.body.code,
@@ -84,6 +83,7 @@ class UserController{
             }
         })
         .then(user =>{
+            console.log(user)
             const token = jwt.sign({_id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin}, secret, {expiresIn: "6h"})
             res.status(200).json({access_token: token, _id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin})
         })

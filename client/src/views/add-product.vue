@@ -1,7 +1,15 @@
 <template>
     <v-container>
         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <v-alert v-model="alert" dismissible type="error">{{errormsg}}</v-alert>
+            <!-- <v-alert v-model="alert" dismissible type="error">{{errormsg}}</v-alert> -->
+            <v-snackbar
+            v-model="alert"
+            top
+            color="red"
+            class="mt-1"
+            >
+                {{errormsg}}
+            </v-snackbar>
             
             <img :src="imageUrl" height="150" v-if="imageUrl"/>
             <v-text-field label="Product Title" v-model="title" prepend-icon="add"></v-text-field>
@@ -29,7 +37,7 @@
                     v-model="description"
                 ></v-textarea>
             </v-layout>
-                <v-btn color="grey" @click="addProduct">Add</v-btn>
+                <v-btn color="grey" @click="addProduct" class="mr-5">Add</v-btn>
             
             <input
                 type="file"

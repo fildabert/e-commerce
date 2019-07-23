@@ -25,9 +25,6 @@
           <v-spacer></v-spacer>
           
             
-            
-          
-          <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure">Sign in with Google</GoogleLogin> -->
           <v-btn flat @click="googleLogin"><v-icon class="mr-2">fab fa-google</v-icon> Login With Google</v-btn>
           <v-btn color="grey darken-4" flat @click="dialog = false">Cancel</v-btn>
           <v-btn color="grey darken-4" flat @click="login">Login</v-btn>
@@ -54,14 +51,7 @@ export default {
         email: "",
         password: "",
         error: "",
-        params: {
-          client_id: "58857443225-5c2ubp38j7cpjhhukju5qebolnqg2nm5.apps.googleusercontent.com"
-        },
-        renderParams: {
-          width: 150,
-          height: 50,
-          longtitle: false,
-        },
+
       }
     },
     methods:{
@@ -85,7 +75,7 @@ export default {
             email: userInfo.data.email,
             username: userInfo.data.username,
             isLogin: true,
-            profilePicture: userinfo.profilePicture,
+            profilePicture: userInfo.data.profilePicture,
             admin: userInfo.data.admin,
             _id: userInfo.data._id
           })
@@ -95,43 +85,6 @@ export default {
             console.log(err)
           })
         })
-      },
-      onSuccess: function (googleUser) {
-        var baseUrl = this.$store.state.baseUrl
-        var user =googleUser.getBasicProfile()
-        axios.request({
-          method: "POST",
-          url: `${baseUrl}/users/googlelogin`,
-          data: {
-            email: user.U3,
-            username: user.ig,
-            password: user.Eea,
-            profilePicture: user.Paa
-          },
-          headers: {
-          }
-        })
-        .then(userInfo =>{
-          console.log(userInfo.data)
-          sessionStorage.setItem("jwt", userInfo.data.access_token)
-          this.$store.commit({
-            type: "SET_IS_LOGIN",
-            email: userInfo.data.email,
-            username: userInfo.data.username,
-            isLogin: true,
-            profilePicture: user.Paa,
-            admin: userInfo.data.admin,
-            _id: userInfo.data._id
-          })
-          this.dialog = false
-        })
-        .catch(err =>{
-          this.error= err.response.data
-        })
-
-      },
-      onFailure: function () {
-        console.log("ERROR")
       },
       login: function () {
         var baseUrl = this.$store.state.baseUrl

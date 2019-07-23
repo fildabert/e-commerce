@@ -34,7 +34,7 @@
                             <div class="title mt-4 hidden-sm-and-down">x{{transaction.quantity}}</div>
                         </v-flex>
 
-                        <v-flex xs3 md2>
+                        <v-flex xs3 md3>
                             <div class="title mt-4 hidden-sm-and-down">Total Price: <span class="green--text">${{transaction.quantity * transaction.price}}</span></div>
                         </v-flex>
                         <v-flex xs3 md5>

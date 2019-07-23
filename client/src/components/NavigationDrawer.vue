@@ -89,6 +89,12 @@ export default {
         LoginButton, 
         RegisterButton
     },
+    created() {
+      this.$store.dispatch("GET_PRODUCTS")
+      .then(products =>{
+        this.products = products.data
+      })
+    },
     props: ['loginFirst'],
   data() {
     return {
@@ -105,7 +111,8 @@ export default {
       ],
       triggerLogin: 0,
       triggerRegister: 0,
-      search: ""
+      search: "",
+      products: ""
     }
   },
   methods: {

@@ -1,6 +1,14 @@
 <template>
     <v-container>
-        <v-alert v-model="alert" dismissible type="error">{{errormsg}}</v-alert>
+        <!-- <v-alert v-model="alert" dismissible type="error">{{errormsg}}</v-alert> -->
+        <v-snackbar
+            v-model="alert"
+            top
+            color="red"
+            class="mt-1"
+            >
+                {{errormsg}}
+            </v-snackbar>
         <v-flex xs1>
             <v-btn flat :to="{path: '/products'}"><v-icon>arrow_back</v-icon> Back to Products</v-btn>
         </v-flex>
