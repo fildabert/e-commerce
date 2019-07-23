@@ -66,6 +66,7 @@ export default {
     },
     methods:{
       googleLogin: function() {
+        console.log("ASD")
         this.$gAuth.signIn()
         .then(GoogleUser =>{
           var token = GoogleUser.getAuthResponse().id_token

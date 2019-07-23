@@ -59,6 +59,7 @@ class UserController{
     }
 
     static googleLogin (req, res, next) {
+        console.log("ASDGOOGLELOGIN")
         var payload = null
         client.verifyIdToken({
             idToken: req.body.code,
