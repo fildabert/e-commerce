@@ -9,8 +9,6 @@
 
         <router-view :drawer="drawer" @loginFirst="triggerLoginModal"></router-view>
       <div style="height: 200px;"></div>
-
-<h1>asd</h1>
         
       </v-container>
     </v-content>

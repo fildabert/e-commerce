@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const secret =  process.env.SECRET
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = '58857443225-5c2ubp38j7cpjhhukju5qebolnqg2nm5.apps.googleusercontent.com'
+const client = new OAuth2Client(CLIENT_ID);
 
 class UserController{
 
@@ -54,32 +57,37 @@ class UserController{
         })
         .catch(next)
     }
-    static googleLogin(req, res, next) {
-        User.findOne({email: req.body.email})
-        .then(userFound =>{
-            if(userFound){
-                console.log(userFound)
-                const token = jwt.sign({_id: userFound._id, email: userFound.email, username: userFound.username, profilePicture: req.body.profilePicture, admin: userFound.admin}, secret, {expiresIn: "6h"})
-                res.status(200).json({"access_token": token, _id: userFound._id, "username": userFound.username, "email": userFound.email, "admin": userFound.admin})
-            }else{
-                var newUser = new User({
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password,
+
+    static googleLogin (req, res, next) {
+        var payload = null
+        client.verifyIdToken({
+            idToken: req.body.code,
+            audience: CLIENT_ID
+        })
+        .then(ticket =>{
+            payload = ticket.getPayload()
+            return User.findOne({email: payload.email})
+        })
+        .then(user =>{
+            if(user){
+                return user
+            } else {
+                var newuser = new User({
+                    username: payload.name,
+                    email: payload.email,
+                    password: payload.jti,
                     balance: 0,
                     admin: false
                 })
-                newUser.save()
-                .then(created =>{
-                    console.log(created)
-                    const token = jwt.sign({_id: created._id, email: created.email, username: created.username, profilePicture: req.body.profilePicture, admin: false}, secret, {expiresIn: "6h"})
-                    res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": false})
-                })
-                .catch(next)
+                return newuser.save()
             }
         })
+        .then(user =>{
+            const token = jwt.sign({_id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin}, secret, {expiresIn: "6h"})
+            res.status(200).json({access_token: token, username: user.username, picture: payload.picture})
+        })
+        .catch(next)
     }
-
 }
 
 module.exports = UserController

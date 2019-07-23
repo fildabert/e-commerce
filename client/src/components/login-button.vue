@@ -68,8 +68,31 @@ export default {
       googleLogin: function() {
         this.$gAuth.signIn()
         .then(GoogleUser =>{
-          GoogleUser.getAuthResponse().id_token
-          
+          var token = GoogleUser.getAuthResponse().id_token
+          return axios.request({
+            method: "POST",
+            url: `${baseUrl}/users/googlelogin`,
+            data: {
+              code: token
+            }
+          })
+          .then(userInfo =>{
+             console.log(userInfo.data)
+             sessionStorage.setItem("jwt", userInfo.data.access_token)
+             this.$store.commit({
+            type: "SET_IS_LOGIN",
+            email: userInfo.data.email,
+            username: userInfo.data.username,
+            isLogin: true,
+            profilePicture: user.Paa,
+            admin: userInfo.data.admin,
+            _id: userInfo.data._id
+          })
+          this.dialog = false
+          })
+          .catch(err =>{
+            console.log(err)
+          })
         })
       },
       onSuccess: function (googleUser) {
