@@ -85,7 +85,7 @@ class UserController{
         })
         .then(user =>{
             const token = jwt.sign({_id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin}, secret, {expiresIn: "6h"})
-            res.status(200).json({access_token: token, username: user.username, picture: payload.picture})
+            res.status(200).json({access_token: token, _id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin})
         })
         .catch(next)
     }

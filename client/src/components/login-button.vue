@@ -66,7 +66,7 @@ export default {
     },
     methods:{
       googleLogin: function() {
-        console.log("ASD")
+        var baseUrl = this.$store.state.baseUrl
         this.$gAuth.signIn()
         .then(GoogleUser =>{
           var token = GoogleUser.getAuthResponse().id_token
@@ -85,7 +85,7 @@ export default {
             email: userInfo.data.email,
             username: userInfo.data.username,
             isLogin: true,
-            profilePicture: user.Paa,
+            profilePicture: userinfo.profilePicture,
             admin: userInfo.data.admin,
             _id: userInfo.data._id
           })
