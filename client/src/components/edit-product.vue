@@ -58,6 +58,7 @@ export default {
                 this.stock = selected.stock
                 this.selectedType = selected.weaponType
                 this.description = selected.description
+                this.previousImage = selected.image
             })
             .catch(err =>{
                 console.log(err)
@@ -77,12 +78,15 @@ export default {
             imageName: "",
             imageUrl: "",
             imageFile: "",
-            imageLinkFromGCS: ""
+            imageLinkFromGCS: "",
+            previousImage: ""
         }
     },
     methods: {
         editProduct () {
             var baseUrl = this.$store.state.baseUrl
+            var arr = this.previousImage.split("/")
+
             axios.request({
                 method: "PUT",
                 url: `${baseUrl}/products/edit`,
@@ -93,7 +97,8 @@ export default {
                     price: this.price,
                     weaponType: this.selectedType,
                     image: this.imageLinkFromGCS,
-                    stock: this.stock
+                    stock: this.stock,
+                    previousImage: arr[arr.length-1]
                 },
                 headers: {
                     token: sessionStorage.getItem("jwt")
@@ -113,33 +118,40 @@ export default {
         },
 		
 		onFilePicked (e) {
-            var baseUrl = this.$store.state.baseUrl
-			const files = e.target.files
-			if(files[0] !== undefined) {
-				this.imageName = files[0].name
-				if(this.imageName.lastIndexOf('.') <= 0) {
-					return
-				}
-				const fr = new FileReader ()
-				fr.readAsDataURL(files[0])
-				fr.addEventListener('load', () => {
-					this.imageUrl = fr.result
-                    this.imageFile = files[0] // this is an image file that can be sent to server...
-                    const formData = new FormData()
-                        formData.append('image',this.imageFile)
-                        axios.post(`http://localhost:3000/googleCloudStorage`, formData)
-                          .then(({ data }) =>{
-                            this.imageLinkFromGCS = data
-                            })
-                          .catch(err =>{
-                            console.log(err.data)
-                            })
-                })
-			} else {
-				this.imageName = ''
-				this.imageFile = ''
-				this.imageUrl = ''
-			}
+            // var arr = this.imageUrl.split("/")
+            // return storage
+            //       .bucket('hacktivgun.fildabert.com')
+            //       .file(arr[arr.length-1])
+            //       .delete()
+            // .then(() =>{
+                var baseUrl = this.$store.state.baseUrl
+                const files = e.target.files
+                if(files[0] !== undefined) {
+                    this.imageName = files[0].name
+                    if(this.imageName.lastIndexOf('.') <= 0) {
+                        return
+                    }
+                    const fr = new FileReader ()
+                    fr.readAsDataURL(files[0])
+                    fr.addEventListener('load', () => {
+                        this.imageUrl = fr.result
+                        this.imageFile = files[0] // this is an image file that can be sent to server...
+                        const formData = new FormData()
+                            formData.append('image',this.imageFile)
+                            axios.post(`${baseUrl}/googleCloudStorage`, formData)
+                              .then(({ data }) =>{
+                                this.imageLinkFromGCS = data
+                                })
+                              .catch(err =>{
+                                console.log(err.data)
+                                })
+                    })
+                } else {
+                    this.imageName = ''
+                    this.imageFile = ''
+                    this.imageUrl = ''
+                }
+            // })
 		}
     }
 }

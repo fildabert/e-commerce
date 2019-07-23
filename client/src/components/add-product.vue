@@ -97,6 +97,9 @@ export default {
                     weaponType: this.selectedType,
                     image: this.imageLinkFromGCS,
                     stock: this.stock
+                },
+                headers:{
+                    token: sessionStorage.getItem("jwt")
                 }
             })
              .then(created =>{
@@ -130,7 +133,7 @@ export default {
                     this.imageFile = files[0] // this is an image file that can be sent to server...
                     const formData = new FormData()
                         formData.append('image',this.imageFile)
-                        axios.post(`http://localhost:3000/googleCloudStorage`, formData)
+                        axios.post(`${baseUrl}/googleCloudStorage`, formData)
                           .then(({ data }) =>{
                             this.imageLinkFromGCS = data
                             })
