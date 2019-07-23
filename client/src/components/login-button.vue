@@ -27,7 +27,8 @@
             
             
           
-          <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure">Sign in with Google</GoogleLogin>
+          <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure">Sign in with Google</GoogleLogin> -->
+          <v-btn flat @click="googleLogin"><v-icon class="mr-2">fab fa-google</v-icon> Login With Google</v-btn>
           <v-btn color="grey darken-4" flat @click="dialog = false">Cancel</v-btn>
           <v-btn color="grey darken-4" flat @click="login">Login</v-btn>
           
@@ -39,12 +40,12 @@
 
 <script>
 import axios from "axios"
-import GoogleLogin from "vue-google-login"
+// import GoogleLogin from "vue-google-login"
 
 export default {
     props: ["triggerLogin"],
     components:{
-      GoogleLogin
+      // GoogleLogin
     },
     name: "LoginButton",
     data () {
@@ -64,6 +65,13 @@ export default {
       }
     },
     methods:{
+      googleLogin: function() {
+        this.$gAuth.signIn()
+        .then(GoogleUser =>{
+          GoogleUser.getAuthResponse().id_token
+          
+        })
+      },
       onSuccess: function (googleUser) {
         var baseUrl = this.$store.state.baseUrl
         var user =googleUser.getBasicProfile()

@@ -8,13 +8,16 @@ class ProductController{
             description: req.body.description,
             price: req.body.price,
             image: req.body.image,
-            stock: req.body.stock
+            stock: req.body.stock,
+            weaponType: req.body.type
         })
-        newProduct.save()
+        return newProduct.save()
         .then(created =>{
             res.status(201).json(created)
         })
-        .catch(next)
+        .catch(err =>{
+            console.log(err)
+        })
     }
 
     static findAll(req, res, next){
@@ -31,7 +34,8 @@ class ProductController{
             description: req.body.description,
             price: req.body.price,
             image: req.body.image,
-            stock: req.body.stock
+            stock: req.body.stock,
+            weaponType: req.body.type
         })
         .then(updated =>{
             return Product.findOne({_id: req.query.id})

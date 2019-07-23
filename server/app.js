@@ -2,12 +2,15 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const db = mongoose.connection;
-const port = 3000
+const port = 80
 const routes = require("./routes/index")
 const cors = require("cors")
+
 require("dotenv").config()
 
-mongoose.connect('mongodb://localhost:27017/e-commerce-' + process.env.NODE_ENV, {useNewUrlParser: true, useCreateIndex : true});
+const atlasURL = process.env.ATLAS_URL
+
+mongoose.connect(atlasURL, {useNewUrlParser: true, useCreateIndex : true});
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('Connected to the database')

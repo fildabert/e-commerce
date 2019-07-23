@@ -16,7 +16,7 @@ class UserController{
         })
         return newUser.save()
         .then(created =>{
-            const token = jwt.sign({_id: created._id, email: created.email, username: created.username, admin: created.admin}, secret, {expiresIn: "1h"})
+            const token = jwt.sign({_id: created._id, email: created.email, username: created.username, admin: created.admin}, secret, {expiresIn: "6h"})
             res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": created.admin})
     
         })
@@ -43,7 +43,7 @@ class UserController{
             console.log(res.locals.userData)
             if(valid){
                 console.log(res.locals.userData)
-                const token = jwt.sign({_id: res.locals.userData._id, email: res.locals.userData.email, username: res.locals.userData.username, admin: res.locals.userData.admin}, secret, {expiresIn: "1h"})
+                const token = jwt.sign({_id: res.locals.userData._id, email: res.locals.userData.email, username: res.locals.userData.username, admin: res.locals.userData.admin}, secret, {expiresIn: "6h"})
                 res.status(200).json({"access_token": token, _id: res.locals.userData._id, "username": res.locals.userData.username, "email": res.locals.userData.email, "admin": res.locals.userData.admin})
             }else{
                 throw ({
@@ -59,7 +59,7 @@ class UserController{
         .then(userFound =>{
             if(userFound){
                 console.log(userFound)
-                const token = jwt.sign({_id: userFound._id, email: userFound.email, username: userFound.username, profilePicture: req.body.profilePicture, admin: userFound.admin}, secret, {expiresIn: "1h"})
+                const token = jwt.sign({_id: userFound._id, email: userFound.email, username: userFound.username, profilePicture: req.body.profilePicture, admin: userFound.admin}, secret, {expiresIn: "6h"})
                 res.status(200).json({"access_token": token, _id: userFound._id, "username": userFound.username, "email": userFound.email, "admin": userFound.admin})
             }else{
                 var newUser = new User({
@@ -72,7 +72,7 @@ class UserController{
                 newUser.save()
                 .then(created =>{
                     console.log(created)
-                    const token = jwt.sign({_id: created._id, email: created.email, username: created.username, profilePicture: req.body.profilePicture, admin: false}, secret, {expiresIn: "1h"})
+                    const token = jwt.sign({_id: created._id, email: created.email, username: created.username, profilePicture: req.body.profilePicture, admin: false}, secret, {expiresIn: "6h"})
                     res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": false})
                 })
                 .catch(next)

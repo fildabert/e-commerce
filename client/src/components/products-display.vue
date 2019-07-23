@@ -1,18 +1,5 @@
 <template>
     <div>
-        <v-parallax v-show="!details"
-          dark
-          src='/gun-background.jpg'
-        >
-          <v-layout
-            align-center
-            column
-            justify-center
-          >
-            <h1 class="display-2 font-weight-thin mb-3">HacktivGun</h1>
-            <h4 class="subheading">Your No. 1 trusted weapons dealer</h4>
-          </v-layout>
-        </v-parallax>
         <v-alert v-model="alert" dismissible type="success">{{msg}}</v-alert>
  
                 

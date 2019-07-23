@@ -15,7 +15,7 @@ after(function(done){
 describe("Users CRUD", function (){
     describe("Correct parameters", function(){
         describe("POST /register", function (){
-            it("should send an object containing newly registered user info with status code 201", function(done){
+            it("should send an object containing new registered user info with status code 201", function(done){
                 chai.request(app)
                     .post("/users/register")
                     .send({

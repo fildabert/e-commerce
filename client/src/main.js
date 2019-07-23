@@ -3,6 +3,12 @@ import Vuex from "vuex"
 import './plugins/vuetify'
 import App from './App.vue'
 import VueRouter from "vue-router"
+import GAuth from "vue-google-oauth2"
+const gauthOption = {
+  clientId: '58857443225-5c2ubp38j7cpjhhukju5qebolnqg2nm5.apps.googleusercontent.com',
+  scope: 'profile email',
+  prompt: 'select_account'
+}
 
 import routes from "./routes"
 import jwt from "jsonwebtoken"
@@ -11,6 +17,7 @@ import axios from "axios"
 Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.use(VueRouter)
+Vue.use(GAuth, gauthOption)
 
 
 const router = new VueRouter({routes})
@@ -18,7 +25,7 @@ const router = new VueRouter({routes})
 const store = new Vuex.Store({
   state: {
     cart: [],
-    baseUrl: "https://hacktivgun-server.fildabert.com",
+    baseUrl: "http://hacktivgun-server.fildabert.com",
     isLogin: "",
     email: "",
     username: "",
