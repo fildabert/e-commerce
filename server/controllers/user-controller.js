@@ -19,8 +19,8 @@ class UserController{
         })
         return newUser.save()
         .then(created =>{
-            const token = jwt.sign({_id: created._id, email: created.email, username: created.username, admin: created.admin}, secret, {expiresIn: "6h"})
-            res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": created.admin})
+            const token = jwt.sign({_id: created._id, email: created.email, username: created.username, admin: created.admin, balance: user.balance}, secret, {expiresIn: "6h"})
+            res.status(200).json({"access_token": token, _id: created._id, "username": created.username, "email": created.email, "admin": created.admin, balance: user.balance})
     
         })
         .catch(next)
@@ -46,8 +46,8 @@ class UserController{
             console.log(res.locals.userData)
             if(valid){
                 console.log(res.locals.userData)
-                const token = jwt.sign({_id: res.locals.userData._id, email: res.locals.userData.email, username: res.locals.userData.username, admin: res.locals.userData.admin}, secret, {expiresIn: "6h"})
-                res.status(200).json({"access_token": token, _id: res.locals.userData._id, "username": res.locals.userData.username, "email": res.locals.userData.email, "admin": res.locals.userData.admin})
+                const token = jwt.sign({_id: res.locals.userData._id, email: res.locals.userData.email, username: res.locals.userData.username, admin: res.locals.userData.admin, balance: user.balance}, secret, {expiresIn: "6h"})
+                res.status(200).json({"access_token": token, _id: res.locals.userData._id, "username": res.locals.userData.username, "email": res.locals.userData.email, "admin": res.locals.userData.admin, balance: user.balance})
             }else{
                 throw ({
                     code: 400,
@@ -84,8 +84,8 @@ class UserController{
         })
         .then(user =>{
             console.log(user)
-            const token = jwt.sign({_id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin}, secret, {expiresIn: "6h"})
-            res.status(200).json({access_token: token, _id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin})
+            const token = jwt.sign({_id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin, balance: user.balance}, secret, {expiresIn: "6h"})
+            res.status(200).json({access_token: token, _id: user._id, username: user.username, email: user.email, profilePicture: payload.picture, admin: user.admin, balance: user.balance})
         })
         .catch(next)
     }
