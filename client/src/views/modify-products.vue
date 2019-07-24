@@ -93,7 +93,7 @@ export default {
             var baseUrl = this.$store.state.baseUrl
             axios.request({
                 method: "DELETE",
-                url: `${baseUrl}/products/delete?id=${id}`,
+                url: `${baseUrl}/products/delete/${id}`,
                 headers: {
                     token: sessionStorage.getItem("jwt")
                 }

@@ -8,6 +8,8 @@ chai.use(chaiHttp)
 
 const expect = chai.expect;
 
+var token = null
+
 after(function(done){
     deleteUser(done);
 })
@@ -19,16 +21,20 @@ describe("Users CRUD", function (){
                 chai.request(app)
                     .post("/users/register")
                     .send({
+                        username: "filbert",
                         email: "filbert@mail.com",
                         password: "filbert",
                         admin: true
                     })
                     .then(function(res){
-                        expect(res).to.have.status(201);
+                        expect(res).to.have.status(200);
                         expect(res.body).to.be.an('object');
+                        expect(res.body).to.have.property("access_token")
                         expect(res.body).to.have.property("_id")
+                        expect(res.body).to.have.property("username")
                         expect(res.body).to.have.property("email")
-                        expect(res.body).to.have.property("password")
+                        expect(res.body).to.have.property("balance")
+                        expect(res.body).to.have.property("admin")
                         done();
                     })
                     .catch(function(err){
@@ -151,6 +157,45 @@ describe("Users CRUD", function (){
                         console.log(err)
                     })
             })
+
+            it("should throw an error when email is empty", function(done){
+                chai.request(app)
+                    .post("/users/login")
+                    .send({
+                        email:"",
+                        password: "wrongpassword"
+                    })
+                    .then(res =>{
+                        expect(res).to.have.status(400)
+                        expect(res).to.have.property("error")
+                        expect(res.body).to.equal(`Please fill in all the required fields`)
+                        done()
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                    })
+            })
+
+            it("should throw an error when password is empty", function(done){
+                chai.request(app)
+                    .post("/users/login")
+                    .send({
+                        email:"filbert",
+                        password: ""
+                    })
+                    .then(res =>{
+                        expect(res).to.have.status(400)
+                        expect(res).to.have.property("error")
+                        expect(res.body).to.equal(`Please fill in all the required fields`)
+                        done()
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                    })
+            })
         })
+
+        
     })
 })
+

@@ -3,6 +3,7 @@
           dark
           src='/gun-background.jpg'
           style="height: 400px;"
+          id="parallax"
         >
           <v-layout
             align-center
@@ -21,6 +22,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#parallax {
+  transition: transform 1s, ease-in-out;
+  /* transform-origin: center center; */
+}
 
+/* The Transformation */
+#parallax:hover {
+  transform: scale(1.01);
+}
 </style>

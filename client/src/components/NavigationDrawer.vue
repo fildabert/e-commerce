@@ -8,6 +8,7 @@
           <img v-show="$store.state.isLogin && !$store.state.profilePicture" src="/avatar.jpeg" />
           <img v-show="!$store.state.isLogin" src="/avatar.png" />
         </v-avatar>
+
       </v-flex>
       <v-badge color="blue-grey lighten-1" inline v-show="$store.state.admin">
         <template v-slot:badge>
@@ -15,8 +16,10 @@
         </template>
         <p class="mt-1 subheading">{{$store.state.username}}</p>
       </v-badge>
-
+    
       <p class="mt-1 subheading" v-show="!$store.state.admin">{{$store.state.username}}</p>
+        <span v-show="$store.state.isLogin">Balance: <span class="green--text">${{$store.state.balance}}</span></span>
+        <TopUp></TopUp>
     </v-layout>
     <v-divider></v-divider>
 
@@ -81,13 +84,14 @@
 <script>
 import LoginButton from "./login-button"
 import RegisterButton from "./register-button"
-
+import TopUp from "./TopUp"
 
 export default {
     name: "NavigationDrawer",
     components: {
         LoginButton, 
-        RegisterButton
+        RegisterButton,
+        TopUp
     },
     created() {
       this.$store.dispatch("GET_PRODUCTS")

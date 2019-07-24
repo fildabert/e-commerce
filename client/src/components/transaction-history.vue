@@ -1,5 +1,8 @@
 <template>
     <v-container>
+        <div class="text-xs-center">
+      <v-progress-circular indeterminate color="primary" v-show="loading"></v-progress-circular>
+    </div>
         <v-layout row wrap>
             <v-flex xs12>
                 <v-layout row class="mb-2">
@@ -57,8 +60,10 @@ export default {
             this.$emit("loginFirst")
             this.$router.push("/products")
         }
+        this.loading = true
         this.$store.dispatch("GET_TRANSACTIONS")
          .then(transactions =>{
+             this.loading = false
              transactions.forEach(t => this.transactions.push({...t.product, quantity: t.quantity, cartId: t._id, checkoutDate: t.checkoutDate}))
          })
          .catch(err =>{
@@ -67,7 +72,8 @@ export default {
     },
     data () {
         return {
-            transactions: []
+            transactions: [],
+            loading: false
         }
     }
 }

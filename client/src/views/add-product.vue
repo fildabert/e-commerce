@@ -95,17 +95,18 @@ export default {
     methods: {
         addProduct () {
             var baseUrl = this.$store.state.baseUrl
+            var formData = new FormData()
+            formData.append("image", this.imageFile)
+            formData.append("title", this.title)
+            formData.append("description", this.description)
+            formData.append("price", this.price)
+            formData.append("weaponType", this.selectedType)
+            formData.append("stock", this.stock)
+
             axios.request({
                 method: "POST",
                 url: `${baseUrl}/products/add`,
-                data: {
-                    title: this.title,
-                    description: this.description,
-                    price: this.price,
-                    weaponType: this.selectedType,
-                    image: this.imageLinkFromGCS,
-                    stock: this.stock
-                },
+                data: formData,
                 headers:{
                     token: sessionStorage.getItem("jwt")
                 }
@@ -113,7 +114,6 @@ export default {
              .then(created =>{
                 this.$store.dispatch("GET_PRODUCTS")
                 this.$router.push("/products")
-            
              })
              .catch(err =>{
                  this.alert = true
@@ -139,15 +139,15 @@ export default {
 				fr.addEventListener('load', () => {
 					this.imageUrl = fr.result
                     this.imageFile = files[0] // this is an image file that can be sent to server...
-                    const formData = new FormData()
-                        formData.append('image',this.imageFile)
-                        axios.post(`${baseUrl}/googleCloudStorage`, formData)
-                          .then(({ data }) =>{
-                            this.imageLinkFromGCS = data
-                            })
-                          .catch(err =>{
-                            console.log(err.data)
-                            })
+                    // const formData = new FormData()
+                    //     formData.append('image',this.imageFile)
+                    //     axios.post(`${baseUrl}/googleCloudStorage`, formData)
+                    //       .then(({ data }) =>{
+                    //         this.imageLinkFromGCS = data
+                    //         })
+                    //       .catch(err =>{
+                    //         console.log(err.data)
+                    //         })
                 })
 			} else {
 				this.imageName = ''

@@ -32,7 +32,8 @@ const store = new Vuex.Store({
     profilePicture: "",
     admin: false,
     products: "",
-    _id: ""
+    _id: "",
+    balance: 0
   },
   mutations: {
     // ADD_TO_CART (state, newItem) {
@@ -56,6 +57,7 @@ const store = new Vuex.Store({
       state.profilePicture = payload.profilePicture
       state.admin = payload.admin
       state._id = payload._id
+      state.balance = payload.balance
     },
     CHECK_LOGIN (state) {
       var token = sessionStorage.getItem("jwt")
@@ -66,7 +68,8 @@ const store = new Vuex.Store({
         state.username = decoded.username
         state.profilePicture = decoded.profilePicture
         state.admin = decoded.admin
-        state._id = decoded._id
+        state._id = decoded._id,
+        state.balance = decoded.balance
       }
     },
     SET_ALL_PRODUCTS (state, payload) {

@@ -1,7 +1,17 @@
 <template>
     <v-container>
-            
-            <v-layout v-show="items.length > 0" row class="mb-3 hidden-sm-and-down">
+            <div class="text-xs-center">
+      <v-progress-circular indeterminate color="primary" v-show="loading"></v-progress-circular>
+    </div>
+        <v-layout v-show="items.length === 0">
+            <v-flex xs6 offset-xs3 style="margin-top:15%;">
+                <div class="headline">You have no items in your cart. Start shopping first!</div>
+            </v-flex>
+        </v-layout>
+        
+        <v-card v-show="items.length > 0">
+            <v-card-title>
+            <v-layout v-show="items.length > 0" row class="hidden-sm-and-down">
                 <v-flex xs3>
                     <div class="title">Shopping Cart</div>
                 </v-flex>
@@ -20,12 +30,11 @@
                 </v-flex>
             </v-layout>
 
-        <v-layout v-show="items.length === 0">
-            <v-flex xs6 offset-xs3 style="margin-top:15%;">
-                <div class="headline">You have no items in your cart. Start shopping first!</div>
-            </v-flex>
-        </v-layout>
+            </v-card-title>
+        </v-card>
+
         <CartItems :item="item" v-for="item in items" :key="item._id" @deleteItem="splice"></CartItems>
+
         
         <v-btn v-show="items.length > 0" color="green" class="right mt-3 white--text" @click="checkout">Checkout</v-btn>
     </v-container>
@@ -45,10 +54,11 @@ export default {
             this.$emit("loginFirst")
             this.$router.push("/products")
         }else{
+            this.loading = true
             this.$store.dispatch("GET_CART", this.$store.state._id)
              .then(carts =>{
+                 this.loading = false
                  var cartz = carts.data
-    
                  cartz.forEach(item => this.items.push({...item.product, quantity: item.quantity, cartId: item._id}))
              })
              .catch(err =>{
@@ -58,7 +68,9 @@ export default {
     },
     data () {
         return {
-           items: []
+           items: [],
+           loading: false,
+           totalPrice: []
         }
     },
     methods: {

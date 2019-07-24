@@ -7,7 +7,7 @@
       <v-container fluid>      
 
         <router-view :drawer="drawer" @loginFirst="triggerLoginModal"></router-view>
-      <div style="height: 200px;"></div>
+      <div style="height: 400px;"></div>
         
       </v-container>
     </v-content>

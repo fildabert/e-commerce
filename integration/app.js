@@ -15,7 +15,7 @@ app.use(express.json())
 app.use("/", routes)
 
 app.use((err, req, res, next) =>{
-    // console.log(err)
+    console.log(err)
     if (err.code === 404) {
         res.status(404).json(err.message)
       } else if (err.code === 401) {
@@ -28,7 +28,7 @@ app.use((err, req, res, next) =>{
       } else if(err.name === "ValidationError"){
         res.status(400).json(err.message)
       } else {
-        console.log(err);
+        // console.log(err);
         res.status(500).json(
           'Internal server error',
         );

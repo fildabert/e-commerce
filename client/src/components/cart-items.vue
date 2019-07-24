@@ -120,6 +120,7 @@ export default {
                     }
                 })
                 .then(updated =>{
+                    this.$emit("addTotal", this.item.price * this.item.quantity)
                     // console.log(updated)
                 })
                 .catch(err =>{

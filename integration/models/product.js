@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema({
     title:{
         type: String,
         required: [true, "Product Title cannot be empty"],
-        unique: [true, "Product is already registered in our database"]
+        // unique: [true, "Product is already registered in our database"]
     },
     description:{
         type: String,
@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
     },
     weaponType: {
         type: String,
-        required: [true, "Type cannot be empty"]
+        required: [true, "Product type cannot be empty"]
     },
     image:{
         type: String,

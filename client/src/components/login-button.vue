@@ -77,7 +77,8 @@ export default {
             isLogin: true,
             profilePicture: userInfo.data.profilePicture,
             admin: userInfo.data.admin,
-            _id: userInfo.data._id
+            _id: userInfo.data._id,
+            balance: userInfo.data.balance
           })
           this.dialog = false
           })
@@ -106,7 +107,8 @@ export default {
             username: userInfo.data.username,
             isLogin : true,
             admin: userInfo.data.admin,
-            _id: userInfo.data._id
+            _id: userInfo.data._id,
+            balance: userInfo.data.balance
           })
           this.dialog = false
         })
