@@ -139,7 +139,7 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) =>{
         axios.request({
           method: "GET",
-          url: `${this.state.baseUrl}/cart/transactions?userId=${this.state._id}`,
+          url: `${this.state.baseUrl}/cart/transactions/pending`,
           headers: {
             token: sessionStorage.getItem("jwt")
           }

@@ -8,6 +8,6 @@ router.post("/add", authenticate, cartController.create)
 router.put("/updatestatus", authenticate, cartController.updateCart)
 router.put("/updatequantity", authenticate, cartController.updateQuantity)
 router.delete("/delete", authenticate, cartController.deleteCart)
-router.get("/transactions", authenticate, cartController.getTransactions)
+router.get("/transactions/:status", authenticate, cartController.getTransactions)
 
 module.exports = router

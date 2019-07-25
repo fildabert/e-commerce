@@ -31,7 +31,7 @@ class CartController{
     static findCart(req, res, next) {
         Cart.find({
             userId: req.headers.decoded._id,
-            status: 'ordered'
+            status: 'ordered',
         }).populate("userId").populate("product")
         .then(found =>{
             res.status(200).json(found)
@@ -112,7 +112,8 @@ class CartController{
         .catch(next)
     }
     static getTransactions(req, res, next) {
-        Cart.find({userId: req.headers.decoded._id, status: req.body.status}).populate("product")
+        console.log("MASUK")
+        Cart.find({userId: req.headers.decoded._id, status: req.params.status}).populate("product")
          .then(transactions =>{
              res.status(200).json(transactions)
          })
