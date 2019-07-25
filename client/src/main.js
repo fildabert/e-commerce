@@ -47,6 +47,9 @@ const store = new Vuex.Store({
     //     state.cart[found].quantity ++
     //   }
     // },
+    SET_BALANCE (state, payload) {
+      state.balance = payload
+    },
     SET_CART (state, payload) {
       state.cart = payload
     },
@@ -81,6 +84,21 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    GET_BALANCE (context) {
+      axios.request({
+        method: "GET",
+        url: `${this.state.baseUrl}/users/getBalance`,
+        headers: {
+          token: sessionStorage.getItem("jwt")
+        }
+      })
+      .then(response =>{
+        context.commit("SET_BALANCE", response.data)
+      })
+      .catch(err =>{
+        console.log(err)
+      })
+    },
     GET_CART (context, payload) {
       return new Promise((resolve, reject) =>{
         axios.request({

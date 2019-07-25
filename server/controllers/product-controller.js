@@ -130,7 +130,7 @@ class ProductController {
     static decrement(req, res, next) {
         Product.findOne({_id: req.params.id})
         .then(product =>{
-            product.stock -= req.body.quantity
+            product.stock -= +req.body.quantity
             return product.save()
         })
         .then(product =>{

@@ -100,6 +100,14 @@ class UserController{
         })
         .catch(next)
     }
+
+    static getBalance(req, res, next) {
+        User.findOne({_id: req.headers.decoded.id})
+        .then(user =>{
+            res.status(200).json(user.balance)
+        })
+        .catch(next)
+    }
 }
 
 module.exports = UserController

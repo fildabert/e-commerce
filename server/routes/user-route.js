@@ -8,6 +8,7 @@ router.post("/register", userController.register)
 router.post("/login", userController.login)
 router.post("/googlelogin", userController.googleLogin)
 router.patch("/topup", authenticate, userController.topUp)
+router.get("/getBalance", authenticate, userController.getBalance)
 
 
 module.exports = router
