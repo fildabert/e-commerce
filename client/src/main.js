@@ -87,6 +87,7 @@ const store = new Vuex.Store({
           method: "GET",
           url: `${this.state.baseUrl}/cart/all?_id=${payload}`,
           headers:{
+            token: sessionStorage.getItem("jwt")
           }
         })
         .then(carts =>{

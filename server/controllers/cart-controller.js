@@ -54,15 +54,15 @@ class CartController{
             return User.findOne({_id: req.headers.decoded._id})
         })
         .then(user =>{
-            if((user.balance - totalPrice) >= 0) {
-                user.balance -= totalPrice
-                promises.push(user.save())
-                return Promise.all(promises)
-            } else {
+            if((user.balance - totalPrice) < 0) {
                 throw ({
                     code: 400,
                     message: "Your balance is not enough, please top up to continue"
                 })
+            } else {
+                user.balance -= totalPrice
+                promises.push(user.save())
+                return Promise.all(promises)
             }
         })
         .then(result =>{

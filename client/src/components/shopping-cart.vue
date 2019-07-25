@@ -116,8 +116,7 @@ export default {
                     })
             })
             .catch(err =>{
-                this.$emit("loginFirst")
-                this.$router.push("/products")
+                console.log(err.response)
             })
 
         }
