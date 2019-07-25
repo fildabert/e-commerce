@@ -19,7 +19,7 @@
     
       <p class="mt-1 subheading" v-show="!$store.state.admin">{{$store.state.username}}</p>
         <span v-show="$store.state.isLogin">Balance: <span class="green--text">${{$store.state.balance}}</span></span>
-        <TopUp></TopUp>
+        <TopUp v-show="$store.state.isLogin"></TopUp>
     </v-layout>
     <v-divider></v-divider>
 

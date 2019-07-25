@@ -92,7 +92,7 @@ class UserController{
     static topUp(req, res, next) {
         User.findOne({_id: req.headers.decoded._id})
         .then(user =>{
-            user.balance += req.body.balance
+            user.balance += +req.body.balance
             return user.save()
         })
         .then(user =>{
