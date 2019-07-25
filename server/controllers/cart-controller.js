@@ -47,23 +47,26 @@ class CartController{
         .then(carts =>{
             carts.forEach(cart =>{
                 totalPrice += (cart.product.price * cart.quantity)
-                cart.status = "pending"
-                cart.checkoutDate = new Date()
-                promises.push(cart.save())
             })
-            return User.findOne({_id: req.headers.decoded._id})
-        })
-        .then(user =>{
-            if((user.balance - totalPrice) < 0) {
+            if((user.balance - totalPrice) >= 0){
+                carts.forEach(cart =>{
+                    cart.status = "pending"
+                    cart.checkoutDate = new Date()
+                    promises.push(cart.save())
+                })
+            }else {
                 throw ({
                     code: 400,
                     message: "Your balance is not enough, please top up to continue"
                 })
-            } else {
-                user.balance -= totalPrice
-                promises.push(user.save())
-                return Promise.all(promises)
             }
+            return User.findOne({_id: req.headers.decoded._id})
+        })
+        .then(user =>{
+            user.balance -= totalPrice
+            promises.push(user.save())
+            return Promise.all(promises)
+            
         })
         .then(result =>{
             res.status(200).json(result)
