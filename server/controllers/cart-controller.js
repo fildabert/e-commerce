@@ -43,12 +43,12 @@ class CartController{
     static updateCart(req, res, next) { //CHECKOUT
         var totalPrice = null
         var promises = []
-        Cart.find({userId: req.headers.decoded._id, status: "ordered"}).populate("product")
+        Cart.find({userId: req.headers.decoded._id, status: "ordered"}).populate("product").populate("userId")
         .then(carts =>{
             carts.forEach(cart =>{
                 totalPrice += (cart.product.price * cart.quantity)
             })
-            if((user.balance - totalPrice) >= 0){
+            if((carts[0].userId.balance - totalPrice) >= 0){
                 carts.forEach(cart =>{
                     cart.status = "pending"
                     cart.checkoutDate = new Date()
