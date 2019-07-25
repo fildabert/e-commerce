@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const CartSchema = new mongoose.Schema({
     status:{
-        type: Boolean,
+        type: String,
         required: [true, "Status cannot be empty"]
     },
     userId: {

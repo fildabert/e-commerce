@@ -85,12 +85,11 @@ export default {
                 promises.push(
                     axios.request({
                         method: "PUT",
-                        url: `${baseUrl}/products/decrement`,
+                        url: `${baseUrl}/products/decrement/${item._id}`,
                         headers: {
                             token: sessionStorage.getItem("jwt")
                         },
                         data: {
-                            id: item._id,
                             quantity: item.quantity
                         }
                     })

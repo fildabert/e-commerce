@@ -15,7 +15,7 @@ app.use(express.json())
 app.use("/", routes)
 
 app.use((err, req, res, next) =>{
-    console.log(err)
+    // console.log(err)
     if (err.code === 404) {
         res.status(404).json(err.message)
       } else if (err.code === 401) {

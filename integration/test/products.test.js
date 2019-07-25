@@ -19,30 +19,40 @@ after(function(done){
     // deleteImage(imageName, done)
 })
 
-// chai.request(app)
-//     .post("/users/register")
-//     .send({
-//         username: "filbert2",
-//         email: "filbert2@mail.com",
-//         password: "filbert2"
-//     })
-//     .then(res =>{
-//         token = res.body.access_token
-//     })
-//     .catch(err =>{
-//         console.log(err)
-//     })
-
 
     describe("Products CRUD", function() {
         describe("Correct Parameters", function() {
+            describe("Get user JWT token", function() {
+                it("should get user JWT token", function(done) {
+                    chai.request(app)
+                        .post("/users/register")
+                        .send({
+                            username: "filbert212201",
+                            email: "filbert222101@mail.com",
+                            password: "filbert201",
+                            admin: true
+                        })
+                        .then(res =>{
+                            token = res.body.access_token
+                            done()
+                        })
+                        .catch(err =>{
+                            console.log(err)
+                            done()
+                        })
+                })
+
+            })
+
             describe("POST /add", function() {
-                it.only("should send an object containing new registered product info with status code 201", function(done) {
+                it("should send an object containing new registered product info with status code 201", function(done) {
                     this.timeout(60000)
+                    // console.log(token)
                     chai.request(app)
                         .post("/products/add")
+                        .set("token", token)
                         .attach("image", image, "mp-5.png")
-                        .field("title", "Product Title1")
+                        .field("title", "Product Title1322")
                         .field("description", "Product Description")
                         .field("price", '1000')
                         .field("weaponType", "Assault Rifle")
@@ -68,9 +78,10 @@ after(function(done){
             })
 
             describe("GET /all", function() {
-                it.only("should get all product data", function(done) {
+                it("should get all product data", function(done) {
                     chai.request(app)
                         .get("/products/all")
+                        .set("token", token)
                         .then(res =>{
                             expect(res).to.have.status(200)
                             expect(res.body).to.be.an("array")
@@ -84,10 +95,11 @@ after(function(done){
             })
 
             describe("PUT /edit", function() {
-                it.only("should send an object containing updated product with status code 200", function(done) {
+                it("should send an object containing updated product with status code 200", function(done) {
                     this.timeout(60000)
                     chai.request(app)
                         .put(`/products/edit/${productId}`)
+                        .set("token", token)
                         .attach("image", fs.readFileSync("./test/rickk.jpeg"), "rickk.jpeg")
                             .field("title", "Product Title")
                             .field("description", "Product Description")
@@ -114,10 +126,11 @@ after(function(done){
                         })
                 })
 
-                it.only("should send an object containing updated product with status code 200(not updating image here)", function(done) {
+                it("should send an object containing updated product with status code 200(not updating image here)", function(done) {
                     this.timeout(60000)
                     chai.request(app)
                         .put(`/products/edit/${productId}`)
+                        .set("token", token)
                         .attach("image", "", "rickk.jpeg")
                         .field("title", "Edited Title")
                         .field("description", "Edited Description")
@@ -144,9 +157,10 @@ after(function(done){
             })
 
             describe("PATCH /editquantity", function() {
-                it.only("should reduce the stock of the product", function(done) {
+                it("should reduce the stock of the product", function(done) {
                     chai.request(app)
                         .patch(`/products/editquantity/${productId}`)
+                        .set("token", token)
                         .send({
                             quantity: 2
                         })
@@ -169,9 +183,10 @@ after(function(done){
             })
 
             describe("DELETE /delete/:id", function() {
-                it.only("should delete selected product", function(done) {
+                it("should delete selected product", function(done) {
                     chai.request(app)
                         .delete(`/products/delete/${productId}`)
+                        .set("token", token)
                         .then(res =>{
                             expect(res).to.have.status(200)
                             expect(res.body).to.have.property("deletedCount")

@@ -45,7 +45,7 @@ class ProductController {
                 product.price = req.body.price
                 product.weaponType = req.body.weaponType
                 product.stock = req.body.stock
-                console.log(product)
+                // console.log(product)
                 var promises = []
                 promises.push(product.save())
                 return Promise.all(promises)
