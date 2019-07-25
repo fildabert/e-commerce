@@ -96,7 +96,7 @@ const store = new Vuex.Store({
         context.commit("SET_BALANCE", response.data)
       })
       .catch(err =>{
-        console.log(err)
+        console.log(err.response)
       })
     },
     GET_CART (context, payload) {

@@ -102,7 +102,7 @@ class UserController{
     }
 
     static getBalance(req, res, next) {
-        User.findOne({_id: req.headers.decoded.id})
+        User.findOne({_id: req.headers.decoded._id})
         .then(user =>{
             res.status(200).json(user.balance)
         })
