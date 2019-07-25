@@ -63,7 +63,7 @@ class CartController{
             return User.findOne({_id: req.headers.decoded._id})
         })
         .then(user =>{
-            user.balance -= totalPrice
+            user.balance -= +totalPrice
             promises.push(user.save())
             return Promise.all(promises)
             
