@@ -85,7 +85,7 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) =>{
         axios.request({
           method: "GET",
-          url: `${this.state.baseUrl}/cart/all?_id=${payload}`,
+          url: `${this.state.baseUrl}/cart/all`,
           headers:{
             token: sessionStorage.getItem("jwt")
           }
