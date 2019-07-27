@@ -9,11 +9,7 @@ router.post("/add", authenticate, cartController.create)
 router.put("/updatestatus", authenticate, cartController.updateCart)
 router.put("/updatequantity", authenticate, cartController.updateQuantity)
 router.delete("/delete", authenticate, cartController.deleteCart)
-router.get("/transactions/admin", (req, res, next) => {
-    console.log("ADASDS")
-    console.log("MASUK JING")
-    res.status(200).json("FUCK YOU")
-})
+router.get("/transactions/admin", authenticate, authorize, cartController.getAllPendingTransactions)
 router.patch("/transactions/admin", authenticate, authorize, cartController.updateTransactions)
 router.get("/transactions/:status", authenticate, cartController.getTransactions)
 
