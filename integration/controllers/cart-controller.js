@@ -1,10 +1,20 @@
 const Cart = require("../models/cart")
 const User = require("../models/user")
+const Product = require("../models/product")
 const mongoose = require("mongoose")
 
 class CartController{
     static create(req, res, next) {
-        Cart.findOne({userId: req.headers.decoded._id, product: req.body.product, status: 'ordered'})
+        Product.findOne({_id: req.body.product})
+            .then(product =>{
+                if((product.stock - 1) < 0) {
+                    throw({
+                        code: 400,
+                        message: `Sorry,${product.title} is out of stock`
+                    })
+                }
+                return Cart.findOne({userId: req.headers.decoded._id, product: req.body.product, status: 'ordered'})
+            })
             .then(found =>{
                 if(found){
                     Cart.update({_id: found._id}, {$inc: { quantity: req.body.quantity }})
@@ -30,7 +40,7 @@ class CartController{
     static findCart(req, res, next) {
         Cart.find({
             userId: req.headers.decoded._id,
-            status: 'ordered'
+            status: 'ordered',
         }).populate("userId").populate("product")
         .then(found =>{
             res.status(200).json(found)
@@ -42,27 +52,36 @@ class CartController{
     static updateCart(req, res, next) { //CHECKOUT
         var totalPrice = null
         var promises = []
-        Cart.find({userId: req.headers.decoded._id, status: "ordered"}).populate("product")
+        Cart.find({userId: req.headers.decoded._id, status: "ordered"}).populate("product").populate("userId")
         .then(carts =>{
             carts.forEach(cart =>{
                 totalPrice += (cart.product.price * cart.quantity)
-                cart.status = "pending"
-                cart.checkoutDate = new Date()
-                promises.push(cart.save())
+                if((cart.product.stock - cart.quantity) < 0) {
+                    throw({
+                        code: 400,
+                        message: `Sorry, ${cart.product.title} is out of stock`
+                    })
+                }
             })
-            return User.findOne({_id: req.headers.decoded._id})
-        })
-        .then(user =>{
-            if((user.balance - totalPrice) >= 0) {
-                user.balance -= totalPrice
-                promises.push(user.save())
-                return Promise.all(promises)
-            } else {
+            if((carts[0].userId.balance - totalPrice) >= 0){
+                carts.forEach(cart =>{
+                    cart.status = "pending"
+                    cart.checkoutDate = new Date()
+                    promises.push(cart.save())
+                })
+            }else {
                 throw ({
                     code: 400,
                     message: "Your balance is not enough, please top up to continue"
                 })
             }
+            return User.findOne({_id: req.headers.decoded._id})
+        })
+        .then(user =>{
+            user.balance -= +totalPrice
+            promises.push(user.save())
+            return Promise.all(promises)
+            
         })
         .then(result =>{
             res.status(200).json(result)
@@ -103,16 +122,38 @@ class CartController{
     static deleteCart(req, res, next) {
         Cart.deleteOne({_id: req.query.id})
         .then(deleted =>{
-            res.status(201).json(deleted)
+            res.status(200).json(deleted)
         })
         .catch(next)
     }
     static getTransactions(req, res, next) {
-        Cart.find({userId: req.headers.decoded._id, status: req.body.status}).populate("product")
+        Cart.find({userId: req.headers.decoded._id, status: req.params.status}).populate("product")
          .then(transactions =>{
              res.status(200).json(transactions)
          })
          .catch(next)
+    }
+
+    static getAllPendingTransactions(req, res, next) {
+        // console.log("HELLO???????????????????")
+        Cart.find({status: "pending"}).populate("product").populate("userId")
+        .then(carts =>{
+            res.status(200).json(carts)
+        })
+        .catch(next)
+    }
+    
+    static updateTransactions(req, res, next) {
+        // console.log(req.body, "-----------------------===-=-=-=-=-=-=")
+        Cart.findOne({_id: req.body.id})
+        .then(cart =>{
+            cart.status = req.body.status
+            return cart.save()
+        })
+        .then(cart =>{
+            res.status(200).json(cart)
+        })
+        .catch(next)
     }
 }
 

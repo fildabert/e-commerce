@@ -30,6 +30,7 @@ describe("Cart CRUD", function() {
                         admin: true
                     })
                     .then(res =>{
+                        // console.log(res.body)
                         token = res.body.access_token
                         expect(res).to.have.status(200)
                         done()
@@ -83,7 +84,6 @@ describe("Cart CRUD", function() {
                     var imageUrl = res.body.image.split("/")
                     imageName = imageUrl[imageUrl.length-1]
                     productId = res.body._id
-                    console.log(productId)
                     done()
                   })
                   .catch(err =>{
@@ -180,13 +180,16 @@ describe("Cart CRUD", function() {
             })
         })
 
-        describe("Delete Cart", function() {
-            it("should delete the selected cart", function(done) {
+        
+        describe("Get all transactions with status pending as an admin", function() {
+            it("should return all pending transactions", function(done) {
                 chai.request(app)
-                    .delete(`/carts/delete?id=${cartId}`)
+                    .get(`/carts/transactions/admin`)
                     .set("token", token)
                 .then(res =>{
-                    console.log(res.body)
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an("array")
+                    expect(res.body[0].status).to.equal("pending")
                     done()
                 })
                 .catch(err =>{
@@ -195,6 +198,94 @@ describe("Cart CRUD", function() {
                 })
             })
         })
+
+        
+
+        describe("Updating the status of an order as an admin", function() {
+            it("should update the status of an order from pending to sent", function(done) {
+                chai.request(app)
+                    .patch(`/carts/transactions/admin`)
+                    .set("token", token)
+                    .send({
+                        id: cartId,
+                        status: "sent"
+                    })
+                .then(res =>{
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an("object")
+                    expect(res.body.status).to.equal("sent")
+                    done()
+                })
+                .catch(err =>{
+                    console.log(err)
+                    done()
+                })
+
+            })
+        })
+
+        describe("Get transactions by status type", function() {
+            it("should return all transactions with status type sent", function(done) {
+                chai.request(app)
+                    .get(`/carts/transactions/sent`)
+                    .set("token", token)
+                .then(res =>{
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an("array")
+                    expect(res.body[0].status).to.equal("sent")
+                    // console.log(res.body)
+                    done()
+                })
+                .catch(err =>{
+                    console.log(err)
+                    done()
+                })
+            })
+        })
+
+        describe("Updating the status of and order as a user", function() {
+            it("should update the status of an order from sent to received", function(done) {
+                chai.request(app)
+                    .patch("/carts/transactions/complete")
+                    .set("token", token)
+                    .send({
+                        id: cartId,
+                        status: "received"
+                    })
+                .then(res =>{
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an("object")
+                    expect(res.body.status).to.equal("received")
+                    done()
+                })
+                .catch(err =>{
+                    console.log(err)
+                    done()
+                })
+            })
+        })
+        
+        
+        describe("Delete Cart", function() {
+            it("should delete the selected cart", function(done) {
+                chai.request(app)
+                    .delete(`/carts/delete?id=${cartId}`)
+                    .set("token", token)
+                .then(res =>{
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.have.property("deletedCount")
+                    expect(res.body.deletedCount).to.equal(1)
+                    done()
+                })
+                .catch(err =>{
+                    console.log(err)
+                    done()
+                })
+            })
+        })
+
+        
+        
 
     })
 })

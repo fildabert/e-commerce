@@ -154,6 +154,29 @@ after(function(done){
                         done()
                     })
                 })
+
+                it("should throw an error when trying to input a negative integer into stock", function(done) {
+                    this.timeout(60000)
+                    chai.request(app)
+                        .put(`/products/edit/${productId}`)
+                        .set("token", token)
+                        .attach("image", "", "rickk.jpeg")
+                        .field("title", "Edited Title")
+                        .field("description", "Edited Description")
+                        .field("price", '2000')
+                        .field("weaponType", "Assault Rifle")
+                        .field("stock", '-1')
+                    .then(res =>{
+                        expect(res).to.have.status(200)
+                        expect(res.body).to.equal('Product validation failed: stock: Path `stock` (-1) is less than minimum allowed value (1).')
+                       
+                        done()
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                        done()
+                    })
+                })
             })
 
             describe("PATCH /editquantity", function() {
@@ -200,6 +223,56 @@ after(function(done){
                 })
             })
         })
+
+
+
+        describe("Incorrect parameters", function() {
+            describe("POST /add", function() {
+                it("should throw an error when user is not an admin", function(done) {
+                    chai.request(app)
+                        .post("/products/add")
+                        .send({
+                            title: "Productzz",
+                            description: "fkin description",
+                            price: 616,
+                            weaponType: "Assault Rifle",
+                            stock: 5
+                        })
+                        .then(res =>{
+                            expect(res).to.have.status(401)
+                            done()
+                        })
+                        .catch(err =>{
+                            console.log(err)
+                        })
+                })
+            })
+            describe("/PUT /edit", function() {
+                it("should throw an error when user is not an admin", function(done) {
+                    chai.request(app)
+                        .put(`/products/edit/${productId}`)
+                        .send({
+                            title: "Productzz",
+                            description: "fkin description",
+                            price: 616,
+                            weaponType: "Assault Rifle",
+                            stock: 5
+                        })
+                        .then(res =>{
+                            expect(res).to.have.status(401)
+                            done()
+                        })
+                        .catch(err =>{
+                            console.log(err)
+                        })
+                })
+
+                
+
+
+            })
+        })
+
     })
 
 // describe("Products CRUD", function (){

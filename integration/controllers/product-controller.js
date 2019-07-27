@@ -9,6 +9,7 @@ const storage = new Storage({
 })
 
 
+
 class ProductController {
 
     static create(req, res, next) {
@@ -45,7 +46,7 @@ class ProductController {
                 product.price = req.body.price
                 product.weaponType = req.body.weaponType
                 product.stock = req.body.stock
-                // console.log(product)
+                console.log(product)
                 var promises = []
                 promises.push(product.save())
                 return Promise.all(promises)
@@ -130,7 +131,13 @@ class ProductController {
     static decrement(req, res, next) {
         Product.findOne({_id: req.params.id})
         .then(product =>{
-            product.stock -= req.body.quantity
+            if((product.stock - req.body.quantity) < 0) {
+                throw({
+                    code: 400,
+                    message: `Sorry, ${product.title} is out of stock, please contact our staffs`
+                })
+            }
+            product.stock -= +req.body.quantity
             return product.save()
         })
         .then(product =>{
