@@ -185,6 +185,23 @@ const store = new Vuex.Store({
           reject(err)
         })
       })
+    },
+    GET_TRANSACTIONS_ADMIN (context) {
+      return new Promise((resolve, reject) =>{
+        axios.request({
+          method: "GET",
+          url: `${this.state.baseUrl}/cart/transactions/admin`,
+          headers: {
+            token: sessionStorage.getItem("jwt")
+          }
+        })
+        .then(transactions =>{
+          resolve(transactions.data)
+        })
+        .catch(err =>{
+          reject(err)
+        })
+      })
     }
 
   },

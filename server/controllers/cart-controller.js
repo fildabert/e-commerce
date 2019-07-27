@@ -122,6 +122,7 @@ class CartController{
     static getAllPendingTransactions(req, res, next) {
         Cart.find({status: "pending"}).populate("product").populate("userId")
         .then(carts =>{
+            console.log(carts)
             res.status(200).json(carts)
         })
         .catch(next)

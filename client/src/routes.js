@@ -5,6 +5,7 @@ import TransactionHistory from "./components/transaction-history.vue"
 import AddProduct from "./views/add-product.vue"
 import EditProducts from "./views/edit-product.vue"
 import ProductDetails from "./components/product-details.vue"
+import TransactionsAdmin from "./views/transaction-admin.vue"
 
 const routes = [
     { path: "/products", component: ProductsDisplay,
@@ -23,6 +24,7 @@ const routes = [
                 component: EditProducts
             }
     ]},
+    { path: "/admin/transactions", component: TransactionsAdmin},
     { path: "/products/add", component: AddProduct}
 ]
 
