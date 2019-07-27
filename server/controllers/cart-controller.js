@@ -7,7 +7,7 @@ class CartController{
     static create(req, res, next) {
         Product.findOne({_id: req.body.product})
             .then(product =>{
-                if(product.stock < 0) {
+                if((product.stock - 1) < 0) {
                     throw({
                         code: 400,
                         message: `Sorry,${product.title} is out of stock`
@@ -57,6 +57,12 @@ class CartController{
         .then(carts =>{
             carts.forEach(cart =>{
                 totalPrice += (cart.product.price * cart.quantity)
+                if((cart.product.stock - cart.quantity) < 0) {
+                    throw({
+                        code: 400,
+                        message: `Sorry, ${cart.product.title} is out of stock`
+                    })
+                }
             })
             if((carts[0].userId.balance - totalPrice) >= 0){
                 carts.forEach(cart =>{

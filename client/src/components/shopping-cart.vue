@@ -98,15 +98,6 @@ export default {
       this.$store
         .dispatch("GET_CART")
         .then(carts => {
-          return axios.request({
-            method: "PUT",
-            url: `${baseUrl}/cart/updatestatus`,
-            headers: {
-              token: sessionStorage.getItem("jwt")
-            }
-          });
-        })
-        .then(() => {
           this.items.forEach(item => {
             promises.push(
               axios.request({
@@ -122,6 +113,16 @@ export default {
             );
           });
           return Promise.all(promises);
+          })
+        .then(() => {
+          return axios.request({
+            method: "PUT",
+            url: `${baseUrl}/cart/updatestatus`,
+            headers: {
+              token: sessionStorage.getItem("jwt")
+            }
+          });
+          
         })
         .then(() =>{
             this.loading = false
