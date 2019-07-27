@@ -11,6 +11,7 @@ router.put("/updatequantity", authenticate, cartController.updateQuantity)
 router.delete("/delete", authenticate, cartController.deleteCart)
 router.get("/transactions/admin", authenticate, authorize, cartController.getAllPendingTransactions)
 router.patch("/transactions/admin", authenticate, authorize, cartController.updateTransactions)
+router.patch("/transactions/complete", authenticate, cartController.updateTransactions)
 router.get("/transactions/:status", authenticate, cartController.getTransactions)
 
 module.exports = router

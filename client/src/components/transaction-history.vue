@@ -41,7 +41,7 @@
         <h1 class="text-center grey--text text--darken-2" style="padding-top: 4%;">You have no items here, please wait while our staffs are going through your orders</h1>
       </v-layout>
      <v-flex xs12 v-for="item in sent" :key="item.cartId">
-          <TransactionCard :transaction="item"></TransactionCard>
+          <TransactionCard :transaction="item" @complete="complete"></TransactionCard>
       </v-flex>
     </v-tab-item>
 
@@ -83,7 +83,21 @@ export default {
       this.$router.push("/products");
     }
     this.loading = true;
-    this.$store
+    this.getAllTransactions()
+  },
+  data() {
+    return {
+      transactions: [],
+      sent: [],
+      received: [],
+      loading: false,
+      tabs: ["pending", "sent", "received"],
+      text: "asdkasodiasidasiodasoidasoidajsodiasjo"
+    };
+  },
+  methods: {
+    getAllTransactions() {
+      this.$store
       .dispatch("GET_PENDING_TRANSACTIONS")
       .then(transactions => {
         // this.loading = false;
@@ -92,7 +106,8 @@ export default {
             ...t.product,
             quantity: t.quantity,
             cartId: t._id,
-            checkoutDate: t.checkoutDate
+            checkoutDate: t.checkoutDate,
+            status: t.status
           })
         );
       })
@@ -109,7 +124,8 @@ export default {
             ...t.product,
             quantity: t.quantity,
             cartId: t._id,
-            checkoutDate: t.checkoutDate
+            checkoutDate: t.checkoutDate,
+            status: t.status
           })
         );
       })
@@ -127,23 +143,18 @@ export default {
             ...t.product,
             quantity: t.quantity,
             cartId: t._id,
-            checkoutDate: t.checkoutDate
+            checkoutDate: t.checkoutDate,
+            status: t.status
           })
         );
       })
       .catch(err => {
         console.log(err.response);
       });
-  },
-  data() {
-    return {
-      transactions: [],
-      sent: [],
-      received: [],
-      loading: false,
-      tabs: ["pending", "sent", "received"],
-      text: "asdkasodiasidasiodasoidasoidajsodiasjo"
-    };
+    },
+    complete: function(id) {
+      
+    }
   }
 };
 </script>

@@ -28,6 +28,15 @@
                 Total Price:
                 <span class="green--text">${{transaction.quantity * transaction.price}}</span>
               </div>
+              <v-tooltip top v-if="transaction.status === 'sent'">
+                  <template v-slot:activator="{ on }">
+              <v-btn outline color="green" v-on="on" @click="complete(transaction.cartId)">
+                  Complete
+              </v-btn>
+                  </template>
+                  <span>Click here when you have received your order</span>
+              </v-tooltip>
+
               
             </v-flex>
             <v-flex xs3 md5>
@@ -42,7 +51,12 @@
 <script>
 export default {
     name: "TransactionCard",
-    props: ['transaction']
+    props: ['transaction'],
+    methods: {
+        complete: function(id) {
+            this.$emit("complete", id)
+        }
+    }
 }
 </script>
 

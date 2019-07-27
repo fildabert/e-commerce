@@ -173,7 +173,7 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) =>{
         axios.request({
           method: "GET",
-          url: `${this.state.baseUrl}/cart/transactions/sent`,
+          url: `${this.state.baseUrl}/cart/transactions/received`,
           headers: {
             token: sessionStorage.getItem("jwt")
           }
@@ -197,6 +197,27 @@ const store = new Vuex.Store({
         })
         .then(transactions =>{
           resolve(transactions.data)
+        })
+        .catch(err =>{
+          reject(err)
+        })
+      })
+    },
+    APPROVE_TRANSACTION (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.request({
+          method: "PATCH",
+          url: `${this.state.baseUrl}/cart/transactions/admin`,
+          headers: {
+            token: sessionStorage.getItem("jwt")
+          },
+          data: {
+            status: payload.status,
+            id: payload.id
+          }
+        })
+        .then(response =>{
+          resolve(response.data)
         })
         .catch(err =>{
           reject(err)

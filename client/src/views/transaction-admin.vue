@@ -13,7 +13,7 @@
       </v-flex>
 
 
-        <v-flex xs12 v-for="transaction in transactions" :key="transaction.cartId">
+        <v-flex xs12 v-for="(transaction, i) in transactions" :key="transaction.cartId">
             <v-card>
           <v-layout row wrap>
             <v-flex xs12 md3>
@@ -42,7 +42,7 @@
               <div class="title mt-4 hidden-sm-and-down">
                 Total Price:
                 <span class="green--text">${{transaction.quantity * transaction.price}}</span>
-                <v-btn outline color="green">Approve</v-btn>
+                <v-btn outline color="green" :loading="buttonloading[i]" @click="approve(transaction.cartId, i)">Approve</v-btn>
               </div>
               
             </v-flex>
@@ -91,23 +91,7 @@ export default {
             this.dialog = true
         } else {
             this.loading = true
-            console.log("?????")
-            this.$store.dispatch("GET_TRANSACTIONS_ADMIN")
-            .then(transactions =>{
-                transactions.forEach(t =>
-                this.transactions.push({
-                    ...t.product,
-                    quantity: t.quantity,
-                    cartId: t._id,
-                    checkoutDate: t.checkoutDate,
-                    ...t.userId
-                })
-                )
-                this.loading = false
-            })
-            .catch(err =>{
-                console.log(err)
-            })
+            this.getTransactions()
         }
     },
     components:{
@@ -116,14 +100,53 @@ export default {
     data() {
         return {
             loading: false,
+            buttonloading: [],
             transactions: [],
             dialog: false
         }
     },
     methods: {
+        getTransactions: function () {
+            this.$store.dispatch("GET_TRANSACTIONS_ADMIN")
+            .then(transactions =>{
+                var temp = []
+                var temploading = []
+                transactions.forEach((t, index) => {    
+                    temploading.push(false)
+                    temp.push({
+                        ...t.product,
+                        quantity: t.quantity,
+                        cartId: t._id,
+                        checkoutDate: t.checkoutDate,
+                        ...t.userId
+                    })
+                }
+                )
+                this.transactions = temp
+                this.buttonloading = temploading
+                this.loading = false
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        },
         closeDialog: function () {
             this.dialog = false
             this.$router.push("/products")
+        },
+        approve: function(id, i) {
+            // this.buttonloading[i] = true
+            // console.log(this.buttonloading[i], "THEN")
+            // console.log(this.buttonloading)
+            this.loading = true
+            this.$store.dispatch("APPROVE_TRANSACTION", {id: id, status: "sent"})
+            .then(response =>{
+                this.getTransactions()
+                // this.buttonloading[i] = false
+            })
+            .catch(err =>{
+                console.log(err)
+            })
         }
     }
 }
