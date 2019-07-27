@@ -41,6 +41,7 @@
               </div>
               <v-tooltip top v-if="transaction.status === 'sent'">
                   <template v-slot:activator="{ on }">
+                    <br>
               <v-btn outline color="green" v-on="on" @click="complete(transaction.cartId)">
                   Complete
               </v-btn>

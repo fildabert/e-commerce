@@ -53,6 +53,7 @@
               <div class="title mt-4 hidden-sm-and-down">
                 Total Price:
                 <span class="green--text">${{transaction.quantity * transaction.price}}</span>
+                <br>
                 <v-btn outline color="green" :loading="buttonloading[i]" @click="approve(transaction.cartId, i)">Approve</v-btn>
               </div>
               
