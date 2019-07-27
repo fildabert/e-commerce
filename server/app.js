@@ -5,6 +5,7 @@ const db = mongoose.connection;
 const port = 80
 const routes = require("./routes/index")
 const cors = require("cors")
+const path = require("path")
 
 require("dotenv").config()
 
@@ -16,7 +17,7 @@ db.once('open', function() {
   console.log('Connected to the database')
 });
 
-
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
@@ -44,7 +45,9 @@ app.use((err, req, res, next) =>{
       }
 })  
 
-app.listen(port, () => console.log(`Listening on port ${port}!`))
+module.exports = app
+
+// app.listen(port, () => console.log(`Listening on port ${port}!`))
 
 
 

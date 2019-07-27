@@ -25,7 +25,7 @@ const router = new VueRouter({routes})
 const store = new Vuex.Store({
   state: {
     cart: [],
-    baseUrl: "http://hacktivgun-server.fildabert.com",
+    baseUrl: "https://hacktivgun-server.fildabert.com",
     isLogin: "",
     email: "",
     username: "",
