@@ -130,7 +130,7 @@ class CartController{
     }
     
     static updateTransactions(req, res, next) {
-        Cart.findOne({_id: req.params.id})
+        Cart.findOne({_id: req.body.id})
         .then(cart =>{
             cart.status = req.body.status
             return cart.save()
