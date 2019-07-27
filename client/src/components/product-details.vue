@@ -14,7 +14,13 @@
     <v-card>
       <v-layout row wrap>
         <v-flex xs12 md7 class="pa-4">
-          <v-img :src="selected.image"></v-img>
+          <v-img :src="selected.image" :lazy-src="selected.image">
+            <template v-slot:placeholder>
+              <v-layout fill-height align-center justify-center ma-0>
+                <v-progress-circular indeterminate color="grey lighten-1"></v-progress-circular>
+              </v-layout>
+            </template>
+          </v-img>
         </v-flex>
         <v-flex xs12 md4 offset-md1 class="pa-4">
           <div class="display-3">{{selected.title}}</div>

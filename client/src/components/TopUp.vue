@@ -58,6 +58,7 @@ export default {
         .then(response =>{
           console.log(response.data)
           this.$store.dispatch("GET_BALANCE")
+          this.dialog = false
         })
         .catch(err =>{
           console.log(err.response)

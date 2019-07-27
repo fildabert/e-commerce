@@ -1,10 +1,20 @@
 const Cart = require("../models/cart")
 const User = require("../models/user")
+const Product = require("../models/product")
 const mongoose = require("mongoose")
 
 class CartController{
     static create(req, res, next) {
-        Cart.findOne({userId: req.headers.decoded._id, product: req.body.product, status: 'ordered'})
+        Product.findOne({_id: req.body.product})
+            .then(product =>{
+                if(product.stock < 0) {
+                    throw({
+                        code: 400,
+                        message: `Sorry,${product.title} is out of stock`
+                    })
+                }
+                return Cart.findOne({userId: req.headers.decoded._id, product: req.body.product, status: 'ordered'})
+            })
             .then(found =>{
                 if(found){
                     console.log(found, "ASDASDASDJSA")

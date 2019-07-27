@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-snackbar v-model="alert" top color="red" class="mt-1">{{errormsg}}</v-snackbar>
+    <v-snackbar v-model="alert" top :color="snackbar" class="mt-1">{{errormsg}}</v-snackbar>
     <div class="text-xs-center">
       <v-progress-circular indeterminate color="primary" v-show="loading"></v-progress-circular>
     </div>
@@ -82,7 +82,8 @@ export default {
       loading: false,
       totalPrice: [],
       alert: false,
-      errormsg: ""
+      errormsg: "",
+      snackbar: ""
     };
   },
   methods: {
@@ -124,12 +125,20 @@ export default {
         })
         .then(() =>{
             this.loading = false
-            this.$store.dispatch("GET_BALANCE")
-            this.$router.push("/history")
+            this.alert = true
+            this.snackbar = "success"
+            this.errormsg = "Transaction Success! Your items will be delivered once our staffs have approved your orders"
+            setTimeout(() =>{
+              this.alert = false
+              this.errormsg = ""
+              this.$store.dispatch("GET_BALANCE")
+              this.$router.push("/history")
+            }, 6000)
         })
         .catch(err => {
           this.loading = false;
           this.alert = true;
+          this.snackbar = "red"
           this.errormsg = err.response.data;
           setTimeout(() => {
             this.alert = false;

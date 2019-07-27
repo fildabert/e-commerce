@@ -130,6 +130,12 @@ class ProductController {
     static decrement(req, res, next) {
         Product.findOne({_id: req.params.id})
         .then(product =>{
+            if((product.stock - req.body.quantity) < 0) {
+                throw({
+                    code: 400,
+                    message: `Sorry, ${product.title} is out of stock, please contact our staffs`
+                })
+            }
             product.stock -= +req.body.quantity
             return product.save()
         })
