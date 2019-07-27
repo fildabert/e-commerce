@@ -1,5 +1,8 @@
 <template>
     <v-container>
+            <div class="text-xs-center">
+      <v-progress-circular indeterminate color="primary" v-show="loading"></v-progress-circular>
+    </div>
         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
             <!-- <v-alert v-model="alert" dismissible type="error">{{errormsg}}</v-alert> -->
             <v-snackbar
@@ -89,11 +92,13 @@ export default {
             imageLinkFromGCS: "",
             errormsg: "",
             alert: false,
-            dialog: false
+            dialog: false,
+            loading: false
         }
     },
     methods: {
         addProduct () {
+            this.loading = true
             var baseUrl = this.$store.state.baseUrl
             var formData = new FormData()
             formData.append("image", this.imageFile)
@@ -114,8 +119,10 @@ export default {
              .then(created =>{
                 this.$store.dispatch("GET_PRODUCTS")
                 this.$router.push("/products")
+                this.loading = false
              })
              .catch(err =>{
+                 this.loading = false
                  this.alert = true
                  this.errormsg = err.response.data
                  console.log(err.response.data)

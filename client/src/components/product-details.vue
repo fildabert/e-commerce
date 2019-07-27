@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <!-- <v-alert v-model="alert" dismissible type="error">{{errormsg}}</v-alert> -->
-    <div class="text-xs-center">
+    <!-- <div class="text-xs-center">
       <v-progress-circular indeterminate color="primary" v-show="loading"></v-progress-circular>
-    </div>
+    </div> -->
     <v-snackbar v-model="alert" top color="red" class="mt-1">{{errormsg}}</v-snackbar>
     <v-flex xs1>
       <v-btn flat :to="{path: '/products'}">
@@ -13,7 +13,30 @@
     <v-flex xs11></v-flex>
     <v-card>
       <v-layout row wrap>
-        <v-flex xs12 md7 class="pa-4">
+        <template>
+          <div v-show="loading">
+        <ContentLoader>
+          <rect x="10" y="20" rx="3" ry="3" width="240" height="200" />
+          <rect x="270" y="30" rx="3" ry="3" width="55" height="20" />
+          <rect x="270" y="54" rx="3" ry="3" width="40" height="10" />
+          <rect x="270" y="66" rx="3" ry="3" width="35" height="15" />
+          <rect x="270" y="83" rx="3" ry="3" width="30" height="8" />
+          <rect x="270" y="93" rx="3" ry="3" width="80" height="15" />
+          <rect x="270" y="110" rx="3" ry="3" width="40" height="18" />
+        </ContentLoader>
+        <ContentLoader>
+          <rect x="10" y="20" rx="3" ry="3" width="370" height="10" />
+          <rect x="10" y="32" rx="3" ry="3" width="360" height="10" />
+          <rect x="10" y="44" rx="3" ry="3" width="300" height="10" />
+          <rect x="10" y="56" rx="3" ry="3" width="340" height="10" />
+          <rect x="10" y="68" rx="3" ry="3" width="325" height="10" />
+          <rect x="10" y="80" rx="3" ry="3" width="350" height="10" />
+          <rect x="10" y="92" rx="3" ry="3" width="370" height="10" />
+        </ContentLoader>
+          </div>
+        </template>
+        
+        <v-flex xs12 md7 class="pa-4" v-show="!loading">
           <v-img :src="selected.image" :lazy-src="selected.image">
             <template v-slot:placeholder>
               <v-layout fill-height align-center justify-center ma-0>
@@ -22,9 +45,10 @@
             </template>
           </v-img>
         </v-flex>
-        <v-flex xs12 md4 offset-md1 class="pa-4">
-          <div class="display-3">{{selected.title}}</div>
-          <div class="title grey--text text--darken-2">{{selected.weaponType}}</div>
+        <v-flex xs12 md4 offset-md1 class="pa-4" v-show="!loading">
+          <div class="display-3 font-weight-light">{{selected.title}}</div>
+          
+          <v-chip color="grey" style="height: 30px;" text-color="white">{{selected.weaponType}}</v-chip>
           <div class="display-1 green--text mt-1">${{selected.price}}</div>
           <div class="body-2 grey--text text--lighten mt-1">{{selected.stock}} in stock</div>
           <v-layout row>
@@ -41,7 +65,7 @@
           </v-layout>
           <v-btn color="green" class="white--text" @click="addToCart">Add to cart</v-btn>
         </v-flex>
-        <v-flex xs12 class="pa-5">
+        <v-flex xs12 class="pa-5" v-show="!loading">
           <div class="subheading mt-2">{{selected.description}}</div>
         </v-flex>
       </v-layout>
@@ -51,9 +75,14 @@
 
 <script>
 import axios from "axios";
+import {ContentLoader} from 'vue-content-loader'
+
 
 export default {
   name: "ProductDetails",
+  components: {
+    ContentLoader
+  },
   created() {
     this.loading = true;
     this.$store
@@ -98,7 +127,13 @@ export default {
           this.$router.push("/cart");
         })
         .catch(err => {
-          this.$emit("loginFirst");
+          if(err.response.data === "Login First") {
+            this.$emit("loginFirst");
+          } else {
+            this.alert = true
+            this.errormsg = err.response.data
+            this.snackbar = "red"
+          }
         });
     },
     increment: function() {

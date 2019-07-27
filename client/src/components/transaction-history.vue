@@ -7,7 +7,7 @@
       <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs3>
-            <div class="headline">Transaction History</div>
+            <div class="headline font-weight-light">Transaction History</div>
           </v-flex>
         </v-layout>
 
@@ -21,6 +21,12 @@
           <v-tab href="#tab-3">Received</v-tab>
 
           <v-tab-item :value="'tab-1'">
+            <v-layout justify-center v-if="transactions.length === 0">
+              <h1
+                class="text-center grey--text text--darken-2 font-weight-light"
+                style="padding-top: 4%;"
+              >Your orders will be displayed here</h1>
+            </v-layout>
             <v-flex xs12 v-for="pending in transactions" :key="pending.cartId">
               <TransactionCard :transaction="pending"></TransactionCard>
             </v-flex>
@@ -29,7 +35,7 @@
           <v-tab-item :value="'tab-2'">
             <v-layout justify-center v-if="sent.length === 0">
               <h1
-                class="text-center grey--text text--darken-2"
+                class="text-center grey--text text--darken-2 font-weight-light"
                 style="padding-top: 4%;"
               >You have no items here, please wait while our staffs are going through your orders</h1>
             </v-layout>
@@ -41,7 +47,7 @@
           <v-tab-item :value="'tab-3'">
             <v-layout justify-center v-if="received.length === 0">
               <h1
-                class="text-center grey--text text--darken-2"
+                class="text-center grey--text text--darken-2 font-weight-light"
                 style="padding-top: 4%;"
               >Your completed orders will be displayed here</h1>
             </v-layout>

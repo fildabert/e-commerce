@@ -7,7 +7,7 @@
       <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs3>
-            <div class="headline">Transactions</div>
+            <div class="headline font-weight-light">Transactions</div>
           </v-flex>
         </v-layout>
       </v-flex>

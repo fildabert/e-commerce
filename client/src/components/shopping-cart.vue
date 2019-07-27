@@ -6,7 +6,7 @@
     </div>
     <v-layout v-show="items.length === 0">
       <v-flex xs6 offset-xs3 style="margin-top:15%;">
-        <div class="headline">You have no items in your cart. Start shopping first!</div>
+        <div class="headline font-weight-light">You have no items in your cart. Start shopping first!</div>
       </v-flex>
     </v-layout>
 
