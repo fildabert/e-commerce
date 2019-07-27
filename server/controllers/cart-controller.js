@@ -112,12 +112,31 @@ class CartController{
         .catch(next)
     }
     static getTransactions(req, res, next) {
-        console.log("MASUK")
         Cart.find({userId: req.headers.decoded._id, status: req.params.status}).populate("product")
          .then(transactions =>{
              res.status(200).json(transactions)
          })
          .catch(next)
+    }
+
+    static getAllPendingTransactions(req, res, next) {
+        Cart.find({status: "pending"}).populate("product").populate("userId")
+        .then(carts =>{
+            res.status(200).json(carts)
+        })
+        .catch(next)
+    }
+    
+    static updateTransactions(req, res, next) {
+        Cart.findOne({_id: req.params.id})
+        .then(cart =>{
+            cart.status = req.body.status
+            return cart.save()
+        })
+        .then(cart =>{
+            res.status(200).json(cart)
+        })
+        .catch(next)
     }
 }
 

@@ -13,7 +13,7 @@
             <v-card color slot-scope="{ hover }" :class="`elevation-${hover ? 7 : 2}`" height="200">
               <v-layout class="mt-1" style="height: 150px;">
                 <v-flex xs7>
-                  <v-img :src="product.image" id="productImage" class="ml-1 mt-3" contain></v-img>
+                  <v-img :src="product.image" id="productImage" class="ml-1 mt-3" contain style="max-height: 120px;"></v-img>
                 </v-flex>
 
                 <v-flex xs5>

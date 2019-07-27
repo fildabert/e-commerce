@@ -135,11 +135,45 @@ const store = new Vuex.Store({
         })
       })
     },
-    GET_TRANSACTIONS (context) {
+    GET_PENDING_TRANSACTIONS (context) {
       return new Promise((resolve, reject) =>{
         axios.request({
           method: "GET",
           url: `${this.state.baseUrl}/cart/transactions/pending`,
+          headers: {
+            token: sessionStorage.getItem("jwt")
+          }
+        })
+        .then(transactions =>{
+          resolve(transactions.data)
+        })
+        .catch(err =>{
+          reject(err)
+        })
+      })
+    },
+    GET_SENT_TRANSACTIONS (context) {
+      return new Promise((resolve, reject) =>{
+        axios.request({
+          method: "GET",
+          url: `${this.state.baseUrl}/cart/transactions/sent`,
+          headers: {
+            token: sessionStorage.getItem("jwt")
+          }
+        })
+        .then(transactions =>{
+          resolve(transactions.data)
+        })
+        .catch(err =>{
+          reject(err)
+        })
+      })
+    },
+    GET_RECEIVED_TRANSACTIONS (context) {
+      return new Promise((resolve, reject) =>{
+        axios.request({
+          method: "GET",
+          url: `${this.state.baseUrl}/cart/transactions/sent`,
           headers: {
             token: sessionStorage.getItem("jwt")
           }

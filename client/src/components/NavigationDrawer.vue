@@ -111,7 +111,8 @@ export default {
         { divider: true },
         { heading: "Admin Mode" },
         { icon: "add", text: "Add New Product", link: "/products/add" },
-        { icon: "edit", text: "Modify Products", link: "/admin/modify" }
+        { icon: "edit", text: "Modify Products", link: "/admin/modify" },
+        { icon: "attach_money", text: "Transactions", link: "/"}
       ],
       triggerLogin: 0,
       triggerRegister: 0,

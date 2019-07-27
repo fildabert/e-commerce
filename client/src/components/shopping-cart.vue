@@ -124,6 +124,7 @@ export default {
         })
         .then(() =>{
             this.loading = false
+            this.$store.dispatch("GET_BALANCE")
             this.$router.push("/history")
         })
         .catch(err => {

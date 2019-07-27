@@ -26,6 +26,7 @@ import Parallax from "./components/Parallax"
       Parallax
     },
     created () {
+      this.$store.dispatch("GET_BALANCE")
       this.$store.commit("CHECK_LOGIN")
       this.$store.dispatch("GET_PRODUCTS")
             .then(products =>{
