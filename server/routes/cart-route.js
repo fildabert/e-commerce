@@ -10,7 +10,11 @@ router.put("/updatestatus", authenticate, cartController.updateCart)
 router.put("/updatequantity", authenticate, cartController.updateQuantity)
 router.delete("/delete", authenticate, cartController.deleteCart)
 router.get("/transactions/:status", authenticate, cartController.getTransactions)
-router.get("/transactions/admin", authenticate, authorize, cartController.getAllPendingTransactions)
+router.get("/transactions/admin", (req, res, next) => {
+    console.log("ADASDS")
+    console.log("MASUK JING")
+    res.status(200).json("FUCK YOU")
+})
 router.patch("/transactions/admin", authenticate, authorize, cartController.updateTransactions)
 
 module.exports = router
